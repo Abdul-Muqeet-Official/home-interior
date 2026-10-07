@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Detail – HomeInteriorKarachi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { white: '#FAFAFC', pure: '#FFFFFF', gold: '#C5A880', champagne: '#F7F4F0', charcoal: '#121214', slate: '#1E1E24' } }, fontFamily: { serif: ['"Cormorant Garamond"', 'serif'], sans: ['"Plus Jakarta Sans"', 'sans-serif'] } } }
+    };
+  </script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-brand-white text-brand-slate antialiased">
+  <!-- Header (reuse) -->
+  <header class="fixed top-0 left-0 w-full z-50 glass-header py-4">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <a href="../index.html" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center border border-brand-gold text-brand-gold font-serif text-2xl group-hover:bg-brand-gold group-hover:text-white transition-colors">H</div>
+        <div>
+          <h1 class="font-serif text-lg md:text-xl font-semibold uppercase tracking-wide">HOME INTERIOR</h1>
+          <p class="text-xs text-brand-gold uppercase tracking-wider">KARACHI — BESPOKE LIVING STUDIO</p>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <main class="pt-24 container mx-auto px-6 md:px-12 py-12">
+    <div id="detail-container" class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+      <!-- Filled by JS -->
+    </div>
+  </main>
+
+  <footer class="bg-brand-white py-8 border-t border-gray-200 text-center text-xs text-gray-500">
+    © 2026 HomeInteriorKarachi. All rights reserved.
+  </footer>
+
+  <script src="../assets/js/store.js"></script>
+  <script src="../assets/js/whatsapp.js"></script>
+  <script>
+    function getId(){
+      const params = new URLSearchParams(window.location.search);
+      return parseInt(params.get('id'));
+    }
+    function renderDetail(){
+      const id = getId();
+      const product = HIStore.getProducts().find(p=>p.id===id);
+      const container = document.getElementById('detail-container');
+      if(!product){
+        container.innerHTML = '<p class="p-8 text-center text-gray-500">Product not found.</p>';
+        return;
+      }
+      container.innerHTML = `
+        <img src="${product.image}" alt="${product.title}" class="w-full h-64 object-cover" />
+        <div class="p-6">
+          <h2 class="font-serif text-2xl font-semibold mb-2">${product.title}</h2>
+          <p class="text-sm text-gray-600 mb-4">Category: ${product.category}</p>
+          <p class="text-gray-700 mb-4">${product.title} – premium ${product.category} solution for modern Karachi homes.</p>
+          <ul class="text-xs text-gray-500 space-y-1 mb-6">
+            <li>Spec 1: ${product.specs.spec1}</li>
+            <li>Spec 2: ${product.specs.spec2}</li>
+            <li>Spec 3: ${product.specs.spec3}</li>
+          </ul>
+          <button onclick="openWhatsApp('${product.title}')" class="bg-brand-gold text-brand-charcoal px-5 py-2 rounded-full font-medium hover:bg-brand-gold/80 btn">Order via WhatsApp</button>
+        </div>
+      `;
+    }
+    document.addEventListener('DOMContentLoaded', renderDetail);
+  </script>
+</body>
+</html>
+

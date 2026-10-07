@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-23T08:54:58.876Z",
+  "sourceFolder": "C:\\Users\\DELL\\Pictures\\False ceiling",
+  "counts": {
+    "sourceImages": 19,
+    "sourceVideos": 1,
+    "published": 16
+  },
+  "published": [
+    {
+      "id": "fc-01",
+      "src": "01-tray-pinlights.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.42 AM (1).jpeg",
+      "sourceMd5": "6962f5bb3048c8f069127871daac45dc",
+      "width": 1600,
+      "height": 1199
+    },
+    {
+      "id": "fc-02",
+      "src": "02-led-perimeter.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.42 AM (2).jpeg",
+      "sourceMd5": "00fec542cc4b33d9a943a04f84cd8bba",
+      "width": 1125,
+      "height": 1076
+    },
+    {
+      "id": "fc-03",
+      "src": "03-grey-downlights.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.42 AM.jpeg",
+      "sourceMd5": "25c9b63bb8b2e2fe1f3efb14012cc570",
+      "width": 735,
+      "height": 575
+    },
+    {
+      "id": "fc-04",
+      "src": "04-amber-cove.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.43 AM (1).jpeg",
+      "sourceMd5": "92748cd6a0e71d266b6ed7889285782a",
+      "width": 720,
+      "height": 960
+    },
+    {
+      "id": "fc-05",
+      "src": "05-geometric-squares.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.43 AM (2).jpeg",
+      "sourceMd5": "0918cce8c42177b0b538d3cfca48674a",
+      "width": 1536,
+      "height": 1126
+    },
+    {
+      "id": "fc-06",
+      "src": "06-violet-accent.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.44 AM (1).jpeg",
+      "sourceMd5": "6183a5d12c069aef064fe169bf3fa8e1",
+      "width": 600,
+      "height": 600
+    },
+    {
+      "id": "fc-07",
+      "src": "07-project-collage.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.44 AM.jpeg",
+      "sourceMd5": "0891216c8de81cdc764908fd01425c7d",
+      "width": 1600,
+      "height": 899
+    },
+    {
+      "id": "fc-08",
+      "src": "08-tiered-cove.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.45 AM (1).jpeg",
+      "sourceMd5": "f1e87b1215ae7ac9f60330cc306ce14f",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "fc-09",
+      "src": "09-coffered-lattice.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.45 AM.jpeg",
+      "sourceMd5": "26da528678368e1d3151f110b620caef",
+      "width": 960,
+      "height": 960
+    },
+    {
+      "id": "fc-10",
+      "src": "10-corner-angle-tray.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.46 AM (1).jpeg",
+      "sourceMd5": "47ae2079e4552f500c473920bd975dbb",
+      "width": 640,
+      "height": 442
+    },
+    {
+      "id": "fc-11",
+      "src": "11-blush-cove.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.46 AM (2).jpeg",
+      "sourceMd5": "230f99c73b4eb4e6d0e17c62ef2f764b",
+      "width": 811,
+      "height": 493
+    },
+    {
+      "id": "fc-12",
+      "src": "12-corridor-pendants.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.46 AM.jpeg",
+      "sourceMd5": "090796a4aafbf68f7e0ce787be56da93",
+      "width": 720,
+      "height": 535
+    },
+    {
+      "id": "fc-13",
+      "src": "13-bedroom-timber.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.47 AM (1).jpeg",
+      "sourceMd5": "9971b0d0d87c31f01e2456b4668cbcf0",
+      "width": 480,
+      "height": 360
+    },
+    {
+      "id": "fc-14",
+      "src": "14-terracotta-inlay.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.47 AM.jpeg",
+      "sourceMd5": "bd0c07e12fe639834bf8bc43b539a042",
+      "width": 1280,
+      "height": 808
+    },
+    {
+      "id": "fc-15",
+      "src": "15-angular-white.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.48 AM (1).jpeg",
+      "sourceMd5": "9a7b17b1a413a9434fcc979b5adb0ded",
+      "width": 1280,
+      "height": 1280
+    },
+    {
+      "id": "fc-16",
+      "src": "16-rounded-cove-fans.webp",
+      "source": "False Ceiling Image 2026-09-22 at 12.01.47 AM (2).jpeg",
+      "sourceMd5": "8910040faf7090e9899cb5a92a3b270e",
+      "width": 1200,
+      "height": 1600
+    }
+  ],
+  "removed": [],
+  "film": {
+    "id": "fc-film",
+    "src": "false-ceiling-film.mp4",
+    "poster": "false-ceiling-film-poster.webp",
+    "source": "False Ceiling Video 2026-09-22 at 12.01.41 AM.mp4",
+    "sourceMd5": "801bdb928b2cf408512922e766ebd0c0"
+  },
+  "duplicates": [
+    {
+      "file": "False Ceiling Image 2026-09-22 at 12.01.43 AM.jpeg",
+      "duplicateOf": "False Ceiling Image 2026-09-22 at 12.01.42 AM (2).jpeg"
+    }
+  ],
+  "unpublished": [
+    null,
+    null
+  ],
+  "exclusions": [
+    {
+      "file": "False Ceiling Image 2026-09-22 at 12.01.43 AM.jpeg",
+      "reason": "Exact MD5 duplicate of the frame published as fc-02."
+    },
+    {
+      "file": "False Ceiling Image 2026-09-22 at 12.01.48 AM.jpeg",
+      "reason": "Low-resolution near-identical re-save of the scene published as fc-09."
+    },
+    {
+      "file": "False Ceiling Image 2026-09-22 at 12.01.49 AM.jpeg",
+      "reason": "Near-identical re-save of the scene published as fc-15."
+    }
+  ]
+}

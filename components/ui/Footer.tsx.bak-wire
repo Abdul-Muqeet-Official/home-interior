@@ -1,0 +1,133 @@
+/**
+ * components/ui/Footer.tsx
+ * Studio footer: brand mark, verified address, contact routes and navigation.
+ */
+
+import Link from "next/link";
+import { FOOTER_NAV, LEGAL_NAV, SITE } from "@/lib/site.config";
+
+const CONTACT_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "Philosophy", href: "/philosophy" },
+  { label: "Materials & Products", href: "/materials" },
+  { label: "Our Work", href: "/our-work" },
+  { label: "Client Reviews", href: "/reviews" },
+  { label: "Services", href: "/services" },
+  { label: "Consultation", href: "/consultation" },
+];
+
+export default function Footer() {
+  const year = 2026;
+
+  return (
+    <footer className="border-t border-line bg-canvas" aria-labelledby="footer-heading">
+      <h2 id="footer-heading" className="sr-only">
+        Studio information and site navigation
+      </h2>
+
+      <div className="container-editorial grid gap-12 py-16 lg:grid-cols-12 lg:py-20">
+        <div className="lg:col-span-4">
+          <div className="flex items-center gap-3">
+            <span
+              aria-hidden="true"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-champagne font-serif text-lg text-charcoal"
+            >
+              {SITE.monogram}
+            </span>
+            <span className="leading-none">
+              <span className="block font-serif text-[15px] tracking-[0.26em] text-charcoal">
+                {SITE.name}
+              </span>
+              <span className="mt-1 block text-[9px] uppercase tracking-[0.28em] text-muted">
+                {SITE.descriptor}
+              </span>
+            </span>
+          </div>
+
+          <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted">
+            Bespoke interiors, architectural finishes and material specification for contemporary
+            Karachi living.
+          </p>
+        </div>
+
+        <div className="lg:col-span-3">
+          <p className="eyebrow">Studio address</p>
+          <address className="mt-5 not-italic text-sm leading-relaxed text-muted">
+            {SITE.addressLines.map((line) => (
+              <span key={line} className="block">
+                {line}
+              </span>
+            ))}
+          </address>
+        </div>
+
+        <div className="lg:col-span-2">
+          <p className="eyebrow">Navigate</p>
+          <ul className="mt-5 space-y-3">
+            {CONTACT_LINKS.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="text-sm text-muted transition-colors hover:text-charcoal"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="lg:col-span-3">
+          <p className="eyebrow">Contact</p>
+          <ul className="mt-5 space-y-3 text-sm">
+            <li>
+              <a href={SITE.phoneHref} className="text-charcoal transition-colors hover:text-gold-deep">
+                {SITE.phone}
+              </a>
+            </li>
+            <li>
+              <a
+                href={SITE.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-charcoal transition-colors hover:text-gold-deep"
+              >
+                WhatsApp — {SITE.whatsapp}
+              </a>
+            </li>
+          </ul>
+
+          <a
+            href={SITE.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-solid mt-7"
+          >
+            Start on WhatsApp
+            <span aria-hidden="true">→</span>
+          </a>
+
+          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+            {LEGAL_NAV.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="text-[11px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-charcoal"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-line">
+        <div className="container-editorial flex flex-col gap-3 py-6 text-[10px] uppercase tracking-[0.24em] text-muted sm:flex-row sm:items-center sm:justify-between">
+          <p>© {year} {SITE.name}. ALL RIGHTS RESERVED.</p>
+          <p>{SITE.descriptor}</p>
+        </div>
+      </div>
+    </footer>
+  );
+}

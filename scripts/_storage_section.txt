@@ -1,0 +1,159 @@
+﻿-- 6. Storage ΓÇö the four application buckets.
+--    Names are exactly: products, projects, services, site-assets.
+--    Public read is intentional (the site displays this media publicly);
+--    uploads and modifications are restricted to admin/editor via RLS below.
+--    Bucket creation is guarded (ON CONFLICT DO NOTHING) and every policy is
+--    created only when absent ΓÇö no duplicates, nothing dropped or weakened.
+-- ---------------------------------------------------------------------------
+
+-- Create the four required buckets only if they are absent.
+-- Bucket ids are deterministic UUIDs so ON CONFLICT (id) DO NOTHING is safe
+-- across runs and across environments that may already have these buckets.
+INSERT INTO storage.buckets (id, name, public)
+VALUES
+  ('00000000-0000-0000-0000-000000000010', 'products',    true),
+  ('00000000-0000-0000-0000-000000000011', 'projects',    true),
+  ('00000000-0000-0000-0000-000000000012', 'services',    true),
+  ('00000000-0000-0000-0000-000000000013', 'site-assets', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Public read on the four buckets (objects stay accessible through public URLs)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.bucket_policy_members bp
+    JOIN storage.buckets b ON b.id = bp.bucket_id
+    WHERE bp.bucket_id = 'products'
+      AND b.name = 'products'
+      AND bp.policy_name = 'public'
+      AND bp.definition = '{\"role\": \"anon\"}'
+  ) THEN
+    INSERT INTO storage.bucket_policy_members (id, bucket_id, name, definition)
+    VALUES (gen_random_uuid(), 'products', 'public', '{"role": "anon"}');
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.bucket_policy_members bp
+    JOIN storage.buckets b ON b.id = bp.bucket_id
+    WHERE bp.bucket_id = 'projects'
+      AND b.name = 'projects'
+      AND bp.policy_name = 'public'
+      AND bp.definition = '{\"role\": \"anon\"}'
+  ) THEN
+    INSERT INTO storage.bucket_policy_members (id, bucket_id, name, definition)
+    VALUES (gen_random_uuid(), 'projects', 'public', '{"role": "anon"}');
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.bucket_policy_members bp
+    JOIN storage.buckets b ON b.id = bp.bucket_id
+    WHERE bp.bucket_id = 'services'
+      AND b.name = 'services'
+      AND bp.policy_name = 'public'
+      AND bp.definition = '{"role": "anon"}'
+  ) THEN
+    INSERT INTO storage.bucket_policy_members (id, bucket_id, name, definition)
+    VALUES (gen_random_uuid(), 'services', 'public', '{"role": "anon"}');
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.bucket_policy_members bp
+    JOIN storage.buckets b ON b.id = bp.bucket_id
+    WHERE bp.bucket_id = 'site-assets'
+      AND b.name = 'site-assets'
+      AND bp.policy_name = 'public'
+      AND bp.definition = '{"role": "anon"}'
+  ) THEN
+    INSERT INTO storage.bucket_policy_members (id, bucket_id, name, definition)
+    VALUES (gen_random_uuid(), 'site-assets', 'public', '{"role": "anon"}');
+  END IF;
+END $$;
+
+-- Upload/modify/delete on the four buckets is restricted to the service role only.
+-- Anonymous users can read public buckets but can never INSERT, UPDATE or DELETE objects.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.bucket_policy_members
+    WHERE bucket_id = 'products'
+      AND name = 'service_role_uploads'
+      AND definition = '{"role": "service_role"}'
+  ) THEN
+    INSERT INTO storage.bucket_policy_members (id, bucket_id, name, definition)
+    VALUES (gen_random_uuid(), 'products', 'service_role_uploads', '{"role": "service_role"}');
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.bucket_policy_members
+    WHERE bucket_id = 'projects'
+      AND name = 'service_role_uploads'
+      AND definition = '{"role": "service_role"}'
+  ) THEN
+    INSERT INTO storage.bucket_policy_members (id, bucket_id, name, definition)
+    VALUES (gen_random_uuid(), 'projects', 'service_role_uploads', '{"role": "service_role"}');
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.bucket_policy_members
+    WHERE bucket_id = 'services'
+      AND name = 'service_role_uploads'
+      AND definition = '{"role": "service_role"}'
+  ) THEN
+    INSERT INTO storage.bucket_policy_members (id, bucket_id, name, definition)
+    VALUES (gen_random_uuid(), 'services', 'service_role_uploads', '{"role": "service_role"}');
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM storage.bucket_policy_members
+    WHERE bucket_id = 'site-assets'
+      AND name = 'service_role_uploads'
+      AND definition = '{"role": "service_role"}'
+  ) THEN
+    INSERT INTO storage.bucket_policy_members (id, bucket_id, name, definition)
+    VALUES (gen_random_uuid(), 'site-assets', 'service_role_uploads', '{"role": "service_role"}');
+  END IF;
+END $$;
+
+-- Public read on the four buckets (objects stay accessible through public URLs)
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'public_read_media_buckets') THEN
+    CREATE POLICY public_read_media_buckets ON storage.objects FOR SELECT
+      USING (bucket_id IN ('products','projects','services','site-assets'));
+  END IF;
+END $$;
+
+-- Uploads ΓÇö admin/editor only
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'admin_insert_media') THEN
+    CREATE POLICY admin_insert_media ON storage.objects FOR INSERT
+      WITH CHECK (
+        bucket_id IN ('products','projects','services','site-assets')
+        AND EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','editor'))
+      );
+  END IF;
+END $$;
+
+-- Updates ΓÇö admin/editor only
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'admin_update_media') THEN
+    CREATE POLICY admin_update_media ON storage.objects FOR UPDATE
+      USING (
+        bucket_id IN ('products','projects','services','site-assets')
+        AND EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','editor'))
+      )
+      WITH CHECK (
+        bucket_id IN ('products','projects','services','site-assets')
+        AND EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','editor'))
+      );
+  END IF;
+END $$;
+
+-- Deletes ΓÇö admin/editor only
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname = 'storage' AND tablename = 'objects' AND policyname = 'admin_delete_media') THEN
+    CREATE POLICY admin_delete_media ON storage.objects FOR DELETE
+      USING (
+        bucket_id IN ('products','projects','services','site-assets')
+        AND EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role IN ('admin','editor'))
+      );
+  END IF;

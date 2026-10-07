@@ -1,0 +1,25 @@
+{
+  "chosen": {
+    "hero-01": "/media/photos/hero-01.jpg",
+    "hero-02": "/media/photos/hero-02.jpg",
+    "hero-03": "/media/photos/hero-03.jpg",
+    "laminate-flooring": "/media/photos/laminate-flooring.jpg",
+    "spc-flooring": "/media/photos/spc-flooring.jpg",
+    "vinyl-flooring": "/media/photos/vinyl-flooring.jpg",
+    "wallpaper": "/media/photos/wallpaper.jpg",
+    "folding-door": "/media/photos/folding-door.jpg",
+    "gypsum-false-ceiling": "/media/photos/gypsum-false-ceiling.jpg",
+    "window-blinds": "/media/photos/window-blinds.jpg",
+    "artificial-grass": "/media/photos/artificial-grass.jpg",
+    "work-featured": "/media/photos/work-featured.jpg",
+    "work-02": "/media/photos/work-02.jpg",
+    "work-03": "/media/photos/work-03.jpg",
+    "philosophy": "/media/photos/philosophy.jpg",
+    "services": "/media/photos/services.jpg",
+    "og": "/media/photos/og.jpg"
+  },
+  "failed": [
+    "pvc-wall-panel",
+    "3d-wall-picture"
+  ]
+}

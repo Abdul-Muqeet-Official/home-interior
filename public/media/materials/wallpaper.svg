@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-label="Wallpaper material study" preserveAspectRatio="xMidYMid slice">
+    <defs>
+  <linearGradient id="wallpaper-wash" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#ded1bd" stop-opacity="1" />
+    <stop offset="45%" stop-color="#b9a88f" stop-opacity="1" />
+    <stop offset="100%" stop-color="#6f6152" stop-opacity="1" />
+  </linearGradient>
+  <radialGradient id="wallpaper-glow" cx="30%" cy="22%" r="78%">
+    <stop offset="0%" stop-color="#fffaf0" stop-opacity="0.55" />
+    <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+  </radialGradient>
+  <filter id="wallpaper-grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
+    <feColorMatrix type="saturate" values="0" />
+  </filter>
+  <rect width="1600" height="1000" filter="url(#wallpaper-grain)" opacity="0.24" style="mix-blend-mode:soft-light" />
+  </defs>
+  <rect width="1600" height="1000" fill="url(#wallpaper-wash)" />
+  <rect width="1600" height="1000" fill="url(#wallpaper-glow)" />
+  <g>
+    <rect x="0" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="41" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="82" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="123" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="164" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="205" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="246" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="287" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="328" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="369" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="410" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="451" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="492" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="533" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="574" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="615" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="656" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="697" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="738" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="779" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="820" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="861" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="902" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="943" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="984" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="1025" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1066" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1107" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="1148" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1189" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1230" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="1271" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1312" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1353" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="1394" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1435" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1476" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="1517" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1558" y="0" width="20" height="1000" fill="#b9a88f" opacity="0.35" />
+    <rect x="1599" y="0" width="20" height="1000" fill="#ded1bd" opacity="0.35" />
+    <rect x="0" y="0" width="1600" height="19" fill="#a2907a" opacity="0.28" />
+    <rect x="0" y="40" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="80" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="120" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="160" width="1600" height="19" fill="#a2907a" opacity="0.28" />
+    <rect x="0" y="200" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="240" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="280" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="320" width="1600" height="19" fill="#a2907a" opacity="0.28" />
+    <rect x="0" y="360" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="400" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="440" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="480" width="1600" height="19" fill="#a2907a" opacity="0.28" />
+    <rect x="0" y="520" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="560" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="600" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="640" width="1600" height="19" fill="#a2907a" opacity="0.28" />
+    <rect x="0" y="680" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="720" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="760" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="800" width="1600" height="19" fill="#a2907a" opacity="0.28" />
+    <rect x="0" y="840" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="880" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="920" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <rect x="0" y="960" width="1600" height="19" fill="#a2907a" opacity="0.28" />
+    <rect x="0" y="1000" width="1600" height="19" fill="#6f6152" opacity="0.28" />
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M90 130 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M90 154 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M490 130 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M490 154 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M890 130 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M890 154 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M1290 130 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M1290 154 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M90 430 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M90 454 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M490 430 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M490 454 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M890 430 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M890 454 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M1290 430 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M1290 454 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M90 730 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M90 754 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M490 730 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M490 754 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M890 730 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M890 754 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+    <g opacity="0.3" stroke="#ded1bd" fill="none" stroke-width="2">
+      <path d="M1290 730 l70 70 l-70 70 l-70 -70 Z" />
+      <path d="M1290 754 l46 46 l-46 46 l-46 -46 Z" />
+    </g>
+  </g>
+</svg>

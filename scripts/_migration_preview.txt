@@ -1,0 +1,81 @@
+﻿--- TOP 45 LINES ---
+
+
+
+
+/* */
+
+/* placeholder */
+
+/**
+ * supabase/migrations/20240920_remote_completion.sql
+ *
+ * Idempotent, non-destructive completion migration for the remote Supabase project.
+ *
+ * Purpose:
+ *  - Provision the tables that were missing from the remote project:
+ *      categories, services, leads, site_settings, media, audit_logs
+ *      (profiles already exists; products/projects/reviews are already live and are
+ *       never created or altered by this file.)
+ *  - Add indexes, the updated_at trigger, RLS enablement and RLS policies.
+ *  - Create the required storage buckets and bucket policies.
+ *  - Seed factual category/service/site-settings content where tables are empty.
+ *
+ * Safety invariants:
+ *  - No DROP TABLE, DROP COLUMN, ALTER COLUMN TYPE, or any other destructive operation.
+ *  - Every table is created only with CREATE TABLE IF NOT EXISTS.
+ *  - Every policy is created only with CREATE POLICY IF NOT EXISTS.
+ *  - SELECT/INSERT/UPDATE/DELETE permissions are exactly what is intended ΓÇö never widened
+ *    to the public. leads is INSERT-only for anonymous users.
+ *  - Storage DELETE is owned by the service role only ΓÇö anonymous users cannot delete uploads.
+ *
+ * How to apply:
+ *  - Preferred: via the Supabase dashboard SQL editor against the remote project, or
+ *    `supabase db push` if the local project is linked to the remote.
+ *  - If the project is not linked, run the SQL in the dashboard SQL editor with
+ *    admin privileges.
+ *
+ * Do NOT commit secrets. Do NOT print SUPABASE_SERVICE_ROLE_KEY, JWT secret, or database
+ * passwords anywhere this file is read by scripts.
+ */
+
+-- =====================================================================
+-- 0. Early setting ΓÇö CREATE IF NOT EXISTS syntax requires the object to be
+--    created in the public schema by default. We set search_path explicitly so
+--    inserts against storage.buckets use the correct target when we write them
+--    as bare INSERT INTO storage.buckets ... VALUES (...). We do NOT change
+
+--- LINES 150-180 (profiles/table region) ---
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  file_name text NOT NULL,
+  storage_path text NOT NULL,
+  bucket text NOT NULL,
+  mime_type text NOT NULL,
+  file_size bigint,
+  alt_text text,
+  entity_type text,
+  entity_id uuid,
+  created_by uuid REFERENCES public.profiles(id),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+-- 1.7 audit_logs (admin-only activity trail)
+CREATE TABLE IF NOT EXISTS public.audit_logs (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  actor_id uuid REFERENCES public.profiles(id),
+  action text NOT NULL,
+  entity text NOT NULL,
+  entity_id uuid,
+  metadata jsonb DEFAULT '{}'::jsonb,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+-- ---------------------------------------------------------------------------
+-- 2. Indexes (IF NOT EXISTS ΓÇö for the tables this migration owns)
+-- ---------------------------------------------------------------------------
+
+CREATE INDEX IF NOT EXISTS idx_categories_slug ON public.categories(slug);
+CREATE INDEX IF NOT EXISTS idx_services_slug ON public.services(slug);
+
+--- TOTAL LINES: 619 ---

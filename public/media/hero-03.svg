@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-label="Light study — louvred daylight across a quiet interior plane" preserveAspectRatio="xMidYMid slice">
+  <defs>
+  <linearGradient id="dark" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#22201d" stop-opacity="1" />
+    <stop offset="55%" stop-color="#141312" stop-opacity="1" />
+    <stop offset="100%" stop-color="#0c0b0a" stop-opacity="1" />
+  </linearGradient>
+  <linearGradient id="lamp" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#f6e3bd" stop-opacity="0.5" />
+    <stop offset="100%" stop-color="#f6e3bd" stop-opacity="0" />
+  </linearGradient>
+  <filter id="heroThreeGrain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.05" numOctaves="4" stitchTiles="stitch" />
+    <feColorMatrix type="saturate" values="0" />
+  </filter>
+  <rect width="1600" height="1000" filter="url(#heroThreeGrain)" opacity="0.24" style="mix-blend-mode:soft-light" />
+  </defs>
+  <rect width="1600" height="1000" fill="url(#dark)" />
+  <g>
+    <rect x="220" y="0" width="18" height="1000" fill="#f2dcb4" opacity="0.05" />
+    <rect x="370" y="0" width="40" height="1000" fill="#f2dcb4" opacity="0.08" />
+    <rect x="520" y="0" width="62" height="1000" fill="#f2dcb4" opacity="0.11" />
+    <rect x="670" y="0" width="18" height="1000" fill="#f2dcb4" opacity="0.05" />
+    <rect x="820" y="0" width="40" height="1000" fill="#f2dcb4" opacity="0.08" />
+    <rect x="970" y="0" width="62" height="1000" fill="#f2dcb4" opacity="0.11" />
+    <rect x="1120" y="0" width="18" height="1000" fill="#f2dcb4" opacity="0.05" />
+    <rect x="1270" y="0" width="40" height="1000" fill="#f2dcb4" opacity="0.08" />
+    <rect x="1420" y="0" width="62" height="1000" fill="#f2dcb4" opacity="0.11" />
+  </g>
+  <g>
+    <rect x="180" y="60" width="1240" height="15" fill="#efe4d2" opacity="0.055" />
+    <rect x="180" y="75" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="96" width="1240" height="15" fill="#efe4d2" opacity="0.075" />
+    <rect x="180" y="111" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="132" width="1240" height="15" fill="#efe4d2" opacity="0.095" />
+    <rect x="180" y="147" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="168" width="1240" height="15" fill="#efe4d2" opacity="0.11499999999999999" />
+    <rect x="180" y="183" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="204" width="1240" height="15" fill="#efe4d2" opacity="0.055" />
+    <rect x="180" y="219" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="240" width="1240" height="15" fill="#efe4d2" opacity="0.075" />
+    <rect x="180" y="255" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="276" width="1240" height="15" fill="#efe4d2" opacity="0.095" />
+    <rect x="180" y="291" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="312" width="1240" height="15" fill="#efe4d2" opacity="0.11499999999999999" />
+    <rect x="180" y="327" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="348" width="1240" height="15" fill="#efe4d2" opacity="0.055" />
+    <rect x="180" y="363" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="384" width="1240" height="15" fill="#efe4d2" opacity="0.075" />
+    <rect x="180" y="399" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="420" width="1240" height="15" fill="#efe4d2" opacity="0.095" />
+    <rect x="180" y="435" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="456" width="1240" height="15" fill="#efe4d2" opacity="0.11499999999999999" />
+    <rect x="180" y="471" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="492" width="1240" height="15" fill="#efe4d2" opacity="0.055" />
+    <rect x="180" y="507" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="528" width="1240" height="15" fill="#efe4d2" opacity="0.075" />
+    <rect x="180" y="543" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="564" width="1240" height="15" fill="#efe4d2" opacity="0.095" />
+    <rect x="180" y="579" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="600" width="1240" height="15" fill="#efe4d2" opacity="0.11499999999999999" />
+    <rect x="180" y="615" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="636" width="1240" height="15" fill="#efe4d2" opacity="0.055" />
+    <rect x="180" y="651" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="672" width="1240" height="15" fill="#efe4d2" opacity="0.075" />
+    <rect x="180" y="687" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="708" width="1240" height="15" fill="#efe4d2" opacity="0.095" />
+    <rect x="180" y="723" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="744" width="1240" height="15" fill="#efe4d2" opacity="0.11499999999999999" />
+    <rect x="180" y="759" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="780" width="1240" height="15" fill="#efe4d2" opacity="0.055" />
+    <rect x="180" y="795" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="816" width="1240" height="15" fill="#efe4d2" opacity="0.075" />
+    <rect x="180" y="831" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="852" width="1240" height="15" fill="#efe4d2" opacity="0.095" />
+    <rect x="180" y="867" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="888" width="1240" height="15" fill="#efe4d2" opacity="0.11499999999999999" />
+    <rect x="180" y="903" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="924" width="1240" height="15" fill="#efe4d2" opacity="0.055" />
+    <rect x="180" y="939" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+    <rect x="180" y="960" width="1240" height="15" fill="#efe4d2" opacity="0.075" />
+    <rect x="180" y="975" width="1240" height="6" fill="#0a0908" opacity="0.5" />
+  </g>
+  <rect x="180" y="60" width="1240" height="880" fill="none" stroke="#c9ad82" stroke-opacity="0.22" />
+  <rect y="820" width="1600" height="180" fill="url(#lamp)" opacity="0.6" />
+</svg>

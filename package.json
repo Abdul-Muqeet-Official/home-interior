@@ -1,0 +1,51 @@
+{
+  "name": "home-interior-karachi",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "import:local-products": "node scripts/import-local-products.mjs",
+    "test:image-src": "node --experimental-strip-types scripts/test-image-src.mjs",
+    "qa:browser": "node scripts/browser-qa.mjs",
+    "qa:flows": "node scripts/browser-flows.mjs",
+    "qa:images": "node scripts/browser-images.mjs",
+    "qa:materials": "node scripts/browser-materials.mjs",
+    "qa:materials-responsive": "node scripts/browser-materials-responsive.mjs",
+    "qa:completeness": "node scripts/browser-completeness.mjs",
+    "qa:crosscheck": "node scripts/crosscheck-catalogue.mjs",
+    "import:local-work": "node scripts/import-local-work.mjs",
+    "ingest:wallpapers": "node scripts/ingest-wallpapers.mjs",
+    "audit:sources": "node scripts/audit-catalogue-sources.mjs",
+    "audit:carpet-tile": "node scripts/ingest-carpet-tile.mjs --audit-only",
+    "ingest:carpet-tile": "node scripts/ingest-carpet-tile.mjs",
+    "ingest:catalogue": "node scripts/ingest-wallpapers.mjs",
+    "verify:catalogue": "node scripts/verify-catalogue.mjs",
+    "verify:routes": "node scripts/smoke-test.mjs",
+    "test": "node scripts/test-catalogue.mjs"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "0.1.68",
+    "@supabase/supabase-js": "2.116.0",
+    "autoprefixer": "10.4.14",
+    "classnames": "2.5.1",
+    "next": "14.2.35",
+    "pdfjs-dist": "4.10.38",
+    "postcss": "^8.5.28",
+    "react": "18.3.0",
+    "react-dom": "18.3.0",
+    "tailwindcss": "3.4.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "@types/react": "18.3.3",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.35",
+    "prettier": "3.3.2",
+    "typescript": "5.5.2"
+  }
+}

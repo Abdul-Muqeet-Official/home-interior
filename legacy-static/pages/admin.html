@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Home Interior</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f3f4f6; }
+        .tab-active { border-bottom: 2px solid #111827; color: #111827; font-weight: 600; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-md flex flex-col hidden md:flex">
+            <div class="p-6 border-b">
+                <a href="../index.html" class="flex items-center gap-2 hover:opacity-75 transition-opacity">
+                    <i class="ph ph-arrow-left text-gray-500"></i>
+                    <span class="font-bold tracking-wide uppercase text-sm">Back to Site</span>
+                </a>
+                <h2 class="text-xl font-bold mt-6">Admin Panel</h2>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <button onclick="switchTab('products')" id="tab-products" class="w-full text-left px-4 py-2 rounded bg-gray-100 font-medium">Products</button>
+                <button onclick="switchTab('reviews')" id="tab-reviews" class="w-full text-left px-4 py-2 rounded hover:bg-gray-50 transition-colors text-gray-600">Reviews</button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <header class="bg-white shadow-sm p-4 md:p-6 flex justify-between items-center md:hidden">
+                <h2 class="text-xl font-bold">Admin Panel</h2>
+                <a href="../index.html" class="text-sm text-gray-500">Back to Site</a>
+            </header>
+
+            <div class="p-6 md:p-10 max-w-6xl mx-auto w-full">
+                
+                <!-- Products Section -->
+                <section id="section-products">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold">Manage Products</h3>
+                        <button onclick="openProductModal()" class="bg-black text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800 transition">Add Product</button>
+                    </div>
+                    
+                    <div class="bg-white rounded shadow overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b text-sm text-gray-500 uppercase">
+                                    <th class="p-4">Image</th>
+                                    <th class="p-4">Title / Category</th>
+                                    <th class="p-4">Specs</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-tbody" class="text-sm divide-y">
+                                <!-- Products loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reviews Section -->
+                <section id="section-reviews" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold">Manage Reviews</h3>
+                        <button onclick="openReviewModal()" class="bg-black text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800 transition">Add Review</button>
+                    </div>
+                    
+                    <div class="bg-white rounded shadow overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b text-sm text-gray-500 uppercase">
+                                    <th class="p-4">Client</th>
+                                    <th class="p-4">Rating</th>
+                                    <th class="p-4">Quote</th>
+                                    <th class="p-4 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviews-tbody" class="text-sm divide-y">
+                                <!-- Reviews loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Product Modal -->
+    <div id="product-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+            <h4 class="text-xl font-bold mb-4" id="p-modal-title">Add Product</h4>
+            <form id="product-form" onsubmit="saveProduct(event)">
+                <input type="hidden" id="p-id">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Title</label>
+                        <input type="text" id="p-title" required class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Category</label>
+                        <input type="text" id="p-category" required class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Image URL</label>
+                        <input type="url" id="p-image" required class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Description</label>
+                        <textarea id="p-desc" required rows="3" class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-black"></textarea>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Spec 1</label>
+                            <input type="text" id="p-spec1" placeholder="e.g. AC5" required class="w-full border rounded px-2 py-1 text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Spec 2</label>
+                            <input type="text" id="p-spec2" placeholder="e.g. HDF Core" required class="w-full border rounded px-2 py-1 text-sm focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium mb-1">Spec 3</label>
+                            <input type="text" id="p-spec3" placeholder="e.g. 20 Years" required class="w-full border rounded px-2 py-1 text-sm focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button type="button" onclick="closeModals()" class="px-4 py-2 border rounded text-sm hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-black text-white rounded text-sm hover:bg-gray-800">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div id="review-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg p-6 w-full max-w-lg">
+            <h4 class="text-xl font-bold mb-4" id="r-modal-title">Add Review</h4>
+            <form id="review-form" onsubmit="saveReview(event)">
+                <input type="hidden" id="r-id">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Client Name</label>
+                        <input type="text" id="r-name" required class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Location/Project</label>
+                        <input type="text" id="r-location" required class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Rating (1-5)</label>
+                        <input type="number" id="r-rating" min="1" max="5" required class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-black">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Quote</label>
+                        <textarea id="r-quote" required rows="4" class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:border-black"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mt-6">
+                    <button type="button" onclick="closeModals()" class="px-4 py-2 border rounded text-sm hover:bg-gray-50">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-black text-white rounded text-sm hover:bg-gray-800">Save Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../assets/js/admin.js"></script>
+    <script>
+        // --- Tab Switching Logic ---
+        function switchTab(tab) {
+            document.getElementById('section-products').classList.toggle('hidden', tab !== 'products');
+            document.getElementById('section-reviews').classList.toggle('hidden', tab !== 'reviews');
+            
+            const pBtn = document.getElementById('tab-products');
+            const rBtn = document.getElementById('tab-reviews');
+            
+            if (tab === 'products') {
+                pBtn.className = 'w-full text-left px-4 py-2 rounded bg-gray-100 font-medium';
+                rBtn.className = 'w-full text-left px-4 py-2 rounded hover:bg-gray-50 transition-colors text-gray-600';
+            } else {
+                rBtn.className = 'w-full text-left px-4 py-2 rounded bg-gray-100 font-medium';
+                pBtn.className = 'w-full text-left px-4 py-2 rounded hover:bg-gray-50 transition-colors text-gray-600';
+            }
+        }
+
+        // --- Render UI ---
+        function renderUI() {
+            renderProductsUI();
+            renderReviewsUI();
+        }
+
+        function renderProductsUI() {
+            const tbody = document.getElementById('products-tbody');
+            tbody.innerHTML = '';
+            getProducts().forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-4"><img src="${p.image}" class="w-16 h-16 object-cover rounded shadow-sm"></td>
+                        <td class="p-4">
+                            <div class="font-medium text-gray-900">${p.title}</div>
+                            <div class="text-xs text-gray-500">${p.category}</div>
+                        </td>
+                        <td class="p-4 text-xs text-gray-500">
+                            ${p.specs.spec1} <br> ${p.specs.spec2} <br> ${p.specs.spec3}
+                        </td>
+                        <td class="p-4 text-right">
+                            <button onclick='editProduct(${JSON.stringify(p).replace(/'/g, "&#39;")})' class="text-blue-600 hover:underline mr-2 text-sm">Edit</button>
+                            <button onclick="removeProduct(${p.id})" class="text-red-600 hover:underline text-sm">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function renderReviewsUI() {
+            const tbody = document.getElementById('reviews-tbody');
+            tbody.innerHTML = '';
+            getReviews().forEach(r => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td class="p-4">
+                            <div class="font-medium text-gray-900">${r.name}</div>
+                            <div class="text-xs text-gray-500">${r.location}</div>
+                        </td>
+                        <td class="p-4 text-yellow-500 font-medium">${r.rating} / 5</td>
+                        <td class="p-4 text-sm text-gray-600 truncate max-w-xs" title="${r.quote}">
+                            ${r.quote.substring(0, 50)}...
+                        </td>
+                        <td class="p-4 text-right">
+                            <button onclick='editReview(${JSON.stringify(r).replace(/'/g, "&#39;")})' class="text-blue-600 hover:underline mr-2 text-sm">Edit</button>
+                            <button onclick="removeReview(${r.id})" class="text-red-600 hover:underline text-sm">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // --- Modal Logic ---
+        function closeModals() {
+            document.getElementById('product-modal').classList.replace('flex', 'hidden');
+            document.getElementById('review-modal').classList.replace('flex', 'hidden');
+        }
+
+        // Product Form
+        function openProductModal() {
+            document.getElementById('product-form').reset();
+            document.getElementById('p-id').value = '';
+            document.getElementById('p-modal-title').textContent = 'Add Product';
+            document.getElementById('product-modal').classList.replace('hidden', 'flex');
+        }
+
+        function editProduct(p) {
+            document.getElementById('p-id').value = p.id;
+            document.getElementById('p-title').value = p.title;
+            document.getElementById('p-category').value = p.category;
+            document.getElementById('p-image').value = p.image;
+            document.getElementById('p-desc').value = p.description;
+            document.getElementById('p-spec1').value = p.specs.spec1;
+            document.getElementById('p-spec2').value = p.specs.spec2;
+            document.getElementById('p-spec3').value = p.specs.spec3;
+            
+            document.getElementById('p-modal-title').textContent = 'Edit Product';
+            document.getElementById('product-modal').classList.replace('hidden', 'flex');
+        }
+
+        function saveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('p-id').value;
+            const p = {
+                title: document.getElementById('p-title').value,
+                category: document.getElementById('p-category').value,
+                image: document.getElementById('p-image').value,
+                description: document.getElementById('p-desc').value,
+                specs: {
+                    spec1: document.getElementById('p-spec1').value,
+                    spec2: document.getElementById('p-spec2').value,
+                    spec3: document.getElementById('p-spec3').value,
+                }
+            };
+            if (id) {
+                updateProduct(parseInt(id), p);
+            } else {
+                addProduct(p);
+            }
+            closeModals();
+            renderProductsUI();
+        }
+
+        function removeProduct(id) {
+            if (confirm('Delete this product?')) {
+                deleteProduct(id);
+                renderProductsUI();
+            }
+        }
+
+        // Review Form
+        function openReviewModal() {
+            document.getElementById('review-form').reset();
+            document.getElementById('r-id').value = '';
+            document.getElementById('r-modal-title').textContent = 'Add Review';
+            document.getElementById('review-modal').classList.replace('hidden', 'flex');
+        }
+
+        function editReview(r) {
+            document.getElementById('r-id').value = r.id;
+            document.getElementById('r-name').value = r.name;
+            document.getElementById('r-location').value = r.location;
+            document.getElementById('r-rating').value = r.rating;
+            document.getElementById('r-quote').value = r.quote;
+            
+            document.getElementById('r-modal-title').textContent = 'Edit Review';
+            document.getElementById('review-modal').classList.replace('hidden', 'flex');
+        }
+
+        function saveReview(e) {
+            e.preventDefault();
+            const id = document.getElementById('r-id').value;
+            const r = {
+                name: document.getElementById('r-name').value,
+                location: document.getElementById('r-location').value,
+                rating: parseInt(document.getElementById('r-rating').value),
+                quote: document.getElementById('r-quote').value
+            };
+            if (id) {
+                updateReview(parseInt(id), r);
+            } else {
+                addReview(r);
+            }
+            closeModals();
+            renderReviewsUI();
+        }
+
+        function removeReview(id) {
+            if (confirm('Delete this review?')) {
+                deleteReview(id);
+                renderReviewsUI();
+            }
+        }
+
+        // Init
+        renderUI();
+    </script>
+</body>
+</html>
+

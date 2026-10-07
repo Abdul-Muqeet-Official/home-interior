@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Category – HomeInteriorKarachi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { white: '#FAFAFC', pure: '#FFFFFF', gold: '#C5A880', champagne: '#F7F4F0', charcoal: '#121214', slate: '#1E1E24' } }, fontFamily: { serif: ['"Cormorant Garamond"', 'serif'], sans: ['"Plus Jakarta Sans"', 'sans-serif'] } } }
+    };
+  </script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-brand-white text-brand-slate antialiased">
+  <!-- Header (reuse same as index) -->
+  <header class="fixed top-0 left-0 w-full z-50 glass-header py-4 transition-all duration-300">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <a href="../index.html" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center border border-brand-gold text-brand-gold font-serif text-2xl group-hover:bg-brand-gold group-hover:text-white transition-colors">H</div>
+        <div>
+          <h1 class="font-serif text-lg md:text-xl font-semibold uppercase tracking-wide">HOME INTERIOR</h1>
+          <p class="text-xs text-brand-gold uppercase tracking-wider">KARACHI — BESPOKE LIVING STUDIO</p>
+        </div>
+      </a>
+      <nav class="hidden md:flex gap-8 items-center text-sm font-medium tracking-wide">
+        <a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a>
+        <a href="#" class="hover:text-brand-gold transition-colors">PHILOSOPHY</a>
+        <a href="category.html?cat=all" class="hover:text-brand-gold transition-colors">MATERIALS</a>
+        <a href="../pages/portfolio.html" class="hover:text-brand-gold transition-colors">OUR WORK</a>
+        <a href="../pages/reviews.html" class="hover:text-brand-gold transition-colors">CLIENT REVIEWS</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pt-24 container mx-auto px-6 md:px-12 py-12">
+    <h2 class="font-serif text-3xl md:text-4xl text-center mb-8" id="category-title">Category</h2>
+    <div class="relative">
+  <button id="prev-card" class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center" aria-label="Previous"><i class="ph ph-arrow-left"></i></button>
+  <div id="cards-container" class="flex gap-4 overflow-x-auto snap-x scroll-smooth scrollbar-hide px-8">
+    <!-- Cards will be injected here -->
+  </div>
+  <button id="next-card" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 hover:bg-white shadow-md flex items-center justify-center" aria-label="Next"><i class="ph ph-arrow-right"></i></button>
+</div>
+  </main>
+
+  <footer class="bg-brand-white py-8 border-t border-gray-200">
+    <div class="container mx-auto text-center text-xs text-gray-500">© 2026 HomeInteriorKarachi. All rights reserved.</div>
+  </footer>
+
+  <script src="../assets/js/store.js"></script>
+  <script src="category.js"></script>
+</body>
+</html>
+

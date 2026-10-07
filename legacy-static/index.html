@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomeInteriorKarachi</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              white: '#FAFAFC',
+              pure: '#FFFFFF',
+              gold: '#C5A880',
+              champagne: '#F7F4F0',
+              charcoal: '#121214',
+              slate: '#1E1E24',
+            },
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <!-- Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-brand-white text-brand-slate antialiased">
+  <!-- Sticky Glass Header -->
+  <header class="fixed top-0 left-0 w-full z-50 glass-header transition-all duration-300 py-4">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center border border-brand-gold text-brand-gold font-serif text-2xl group-hover:bg-brand-gold group-hover:text-white transition-colors">
+          H
+        </div>
+        <div>
+          <h1 class="font-serif text-lg md:text-xl font-semibold uppercase tracking-wide">HOME INTERIOR</h1>
+          <p class="text-xs text-brand-gold uppercase tracking-wider">KARACHI — BESPOKE LIVING STUDIO</p>
+        </div>
+      </a>
+      <nav class="hidden md:flex gap-8 items-center text-sm font-medium tracking-wide">
+        <a href="index.html" class="hover:text-brand-gold transition-colors">HOME</a>
+        <a href="#" class="hover:text-brand-gold transition-colors">PHILOSOPHY</a>
+        <a href="pages/category.html?cat=all" class="hover:text-brand-gold transition-colors">MATERIALS & PRODUCTS</a>
+        <a href="pages/portfolio.html" class="hover:text-brand-gold transition-colors">OUR WORK</a>
+        <a href="pages/reviews.html" class="hover:text-brand-gold transition-colors">CLIENT REVIEWS</a>
+        <button class="text-xl hover:text-brand-gold transition-colors"><i class="ph ph-magnifying-glass"></i></button>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="#consultation" class="hidden md:inline-flex items-center gap-2 bg-brand-charcoal text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-brand-gold transition-colors">
+          CONSULTATION <i class="ph ph-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Announcement Ticker -->
+  <div class="bg-brand-slate text-brand-white text-sm py-2 overflow-hidden whitespace-nowrap">
+    <div class="ticker inline-block animate-marquee">
+      ✨ Premium Interior Design & Architecture in Karachi | 🛋️ Free Site Measurement & 3D Consultation | 📞 WhatsApp Direct Order: +92 300 1234567 | 🌟 100+ Completed Luxury Projects in DHA & Clifton
+    </div>
+  </div>
+
+  <!-- Hero Carousel -->
+  <section id="hero-carousel" class="relative h-screen flex items-center justify-center text-center" style="background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-brand-charcoal/40 z-0"></div>
+    <div class="relative z-10 text-brand-pure px-6 max-w-4xl">
+      <span class="inline-block bg-brand-gold text-brand-charcoal px-3 py-1 rounded-full text-xs font-medium mb-4">• COLLECTION 2026 ARCHITECTURAL DIGEST •</span>
+      <h2 class="font-serif text-4xl md:text-6xl font-bold mb-4">Redefining Modern <span class="italic text-brand-gold">Living Spaces</span>.</h2>
+      <p class="text-lg md:text-xl mb-8">Seamlessly fusing world‑class surface craftsmanship with bespoke interior architecture in Karachi.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="pages/category.html?cat=all" class="bg-brand-pure text-brand-charcoal px-6 py-3 rounded font-medium hover:bg-brand-champagne transition-colors btn">EXPLORE CURATED MATERIALS</a>
+        <a href="pages/portfolio.html" class="border border-brand-pure text-brand-pure px-6 py-3 rounded font-medium hover:bg-white/10 backdrop-blur-sm transition-colors">VIEW PORTFOLIO PROJECTS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product & Category Transition Window -->
+  <section id="category-showcase" class="py-20 bg-brand-white">
+    <div class="container mx-auto px-6 md:px-12">
+      <h3 class="font-serif text-3xl md:text-4xl text-center mb-8">Featured Categories</h3>
+      <div class="relative max-w-5xl mx-auto bg-brand-pure rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px]" id="showcase-window">
+        <div class="w-full md:w-3/5 h-64 md:h-full relative overflow-hidden">
+          <img id="showcase-img" src="" alt="Category" class="w-full h-full object-cover transition-opacity duration-500" />
+          <div class="absolute top-4 left-4 bg-brand-white/90 backdrop-blur px-3 py-1 rounded-full text-sm font-semibold text-brand-charcoal" id="showcase-cat-label"></div>
+        </div>
+        <div class="w-full md:w-2/5 p-8 flex flex-col justify-center relative">
+          <div class="absolute top-4 right-6 text-sm font-medium text-gray-400" id="showcase-counter"></div>
+          <h4 class="font-serif text-2xl font-semibold mb-2" id="showcase-title"></h4>
+          <p class="text-gray-600 mb-6" id="showcase-desc"></p>
+          <div class="space-y-2 mb-6">
+            <div class="flex justify-between"><span class="text-gray-500 text-sm">Spec 1</span><span class="font-medium text-sm" id="spec1"></span></div>
+            <div class="flex justify-between"><span class="text-gray-500 text-sm">Spec 2</span><span class="font-medium text-sm" id="spec2"></span></div>
+            <div class="flex justify-between"><span class="text-gray-500 text-sm">Spec 3</span><span class="font-medium text-sm" id="spec3"></span></div>
+          </div>
+          <a href="pages/category.html?cat=" id="view-category-link" class="inline-block text-brand-gold font-medium hover:text-brand-charcoal transition-colors uppercase tracking-wider text-sm flex items-center gap-2">
+            View Collection <i class="ph ph-arrow-right"></i>
+          </a>
+          <div class="absolute bottom-4 right-4 flex gap-3">
+            <button id="prev-cat" class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-brand-charcoal hover:text-white transition-colors"><i class="ph ph-arrow-left"></i></button>
+            <button id="next-cat" class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-brand-charcoal hover:text-white transition-colors"><i class="ph ph-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Showcase (static for now) -->
+  <section id="portfolio" class="py-20 bg-brand-champagne">
+    <div class="container mx-auto px-6 md:px-12">
+      <h3 class="font-serif text-3xl md:text-4xl text-center mb-8">Our Work</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Sample Card -->
+        <div class="group relative rounded-xl overflow-hidden shadow-lg cursor-pointer card">
+          <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80" alt="Project" class="w-full h-64 object-cover group-hover:scale-105 transition-transform" />
+          <div class="absolute inset-0 bg-brand-charcoal/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+            <h4 class="font-serif text-white text-xl mb-2">DHA Phase 8 Villa</h4>
+            <p class="text-gray-200 text-sm">Luxury flooring & bespoke interiors.</p>
+          </div>
+        </div>
+        <!-- Repeat as needed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Slider -->
+  <section id="reviews" class="py-20 bg-brand-slate text-brand-pure">
+    <div class="container mx-auto px-6 md:px-12">
+      <h3 class="font-serif text-3xl md:text-4xl text-center mb-8">Client Impressions</h3>
+      <div class="relative max-w-3xl mx-auto">
+        <div id="reviews-carousel" class="flex transition-transform duration-700 ease-in-out"></div>
+        <div id="reviews-dots" class="flex justify-center gap-2 mt-4"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/923001234567" target="_blank" class="fixed bottom-6 right-6 bg-brand-gold text-brand-charcoal rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:scale-110 transition-transform" id="whatsapp-float">
+    <i class="ph ph-whatsapp-logo text-3xl"></i>
+  </a>
+
+  <!-- Footer -->
+  <footer class="bg-brand-white pt-16 pb-8 border-t border-gray-200">
+    <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <a href="index.html" class="flex items-center gap-2 mb-4">
+          <div class="w-10 h-10 rounded-full border border-brand-gold flex items-center justify-center text-brand-gold font-serif text-xl">H</div>
+          <span class="font-serif text-xl font-semibold tracking-wide uppercase">Home Interior</span>
+        </a>
+        <p class="text-gray-500 text-sm mb-4">Karachi’s premier boutique interior studio, blending modern luxury with local craftsmanship.</p>
+        <p class="text-gray-500 text-xs">Showroom: DHA Phase 5, Karachi – Open Mon‑Sat 10am‑7pm</p>
+      </div>
+      <div>
+        <h5 class="font-serif font-semibold text-lg mb-4">Materials</h5>
+        <ul class="space-y-2 text-sm text-gray-600">
+          <li><a href="pages/category.html?cat=laminate" class="hover:text-brand-gold">Laminate Flooring</a></li>
+          <li><a href="pages/category.html?cat=spc" class="hover:text-brand-gold">SPC Flooring</a></li>
+          <li><a href="pages/category.html?cat=vinyl" class="hover:text-brand-gold">Vinyl Flooring</a></li>
+          <li><a href="pages/category.html?cat=pvc" class="hover:text-brand-gold">PVC Wall Panel</a></li>
+          <li><a href="pages/category.html?cat=wallpaper" class="hover:text-brand-gold">Wallpaper</a></li>
+          <li><a href="pages/category.html?cat=foldingdoor" class="hover:text-brand-gold">Folding Door</a></li>
+          <li><a href="pages/category.html?cat=gypsum" class="hover:text-brand-gold">Gypsum Ceiling</a></li>
+          <li><a href="pages/category.html?cat=blinds" class="hover:text-brand-gold">Window Blinds</a></li>
+          <li><a href="pages/category.html?cat=3dpicture" class="hover:text-brand-gold">3D Wall Picture</a></li>
+          <li><a href="pages/category.html?cat=grass" class="hover:text-brand-gold">Artificial Grass</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-serif font-semibold text-lg mb-4">Services</h5>
+        <ul class="space-y-2 text-sm text-gray-600">
+          <li>Living Room Design</li>
+          <li>Bedroom Interiors</li>
+          <li>Kitchen Renovation</li>
+          <li>Gypsum False Ceilings</li>
+          <li>Turnkey Project Management</li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-serif font-semibold text-lg mb-4">Contact</h5>
+        <ul class="space-y-2 text-sm text-gray-600">
+          <li class="flex items-center gap-2"><i class="ph ph-phone"></i> +92 300 1234567</li>
+          <li class="flex items-center gap-2"><i class="ph ph-whatsapp-logo"></i> +92 300 1234567</li>
+          <li class="flex items-center gap-2"><i class="ph ph-map-pin"></i> DHA Phase 5, Karachi</li>
+          <li class="flex items-center gap-2"><i class="ph ph-clock"></i> Mon‑Sat 10am‑7pm</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-200 mt-8 pt-4 text-center text-xs text-gray-500">
+      © 2026 HomeInteriorKarachi. All rights reserved.
+      <a href="#" class="ml-4 hover:text-brand-gold">Privacy Policy</a>
+      <a href="#" class="ml-2 hover:text-brand-gold">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/whatsapp.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

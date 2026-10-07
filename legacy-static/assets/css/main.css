@@ -1,0 +1,107 @@
+/* assets/css/main.css */
+/*-----------------------------------
+   Global Variables & Theme Colors
+-----------------------------------*/
+:root {
+  --color-bg: #FDFBF7;          /* warm ivory */
+  --color-card-bg: #FFFFFF;    /* card white */
+  --color-green: #0F382C;      /* forest green */
+  --color-gold: #C5A880;       /* gold */
+  --color-text-dark: #1E293B;  /* dark text */
+  --glass-bg: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(255,255,255,0.18);
+  --glass-shadow: 0 8px 32px 0 rgba(31,38,135,0.07);
+}
+
+/*-----------------------------------
+   Base Styles
+-----------------------------------*/
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-dark);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: "Cormorant Garamond", "Playfair Display", serif;
+}
+
+/*-----------------------------------
+   Glassmorphism Components
+-----------------------------------*/
+.glass-header {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/*-----------------------------------
+   Ticker Marquee
+-----------------------------------*/
+@keyframes marquee {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+.animate-marquee {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 20s linear infinite;
+}
+
+/*-----------------------------------
+   Hover Effects
+-----------------------------------*/
+.hover-scale {
+  transition: transform 0.6s cubic-bezier(0.25,1,0.5,1);
+}
+.hover-scale:hover {
+  transform: scale(1.06);
+}
+
+/*-----------------------------------
+   Utility Classes (Tailwind overrides)
+-----------------------------------*/
+.bg-bg { background-color: var(--color-bg); }
+.bg-card { background-color: var(--color-card-bg); }
+.bg-green { background-color: var(--color-green); }
+.bg-gold { background-color: var(--color-gold); }
+.text-dark { color: var(--color-text-dark); }
+.text-gold { color: var(--color-gold); }
+.text-green { color: var(--color-green); }
+.border-gold { border-color: var(--color-gold); }
+
+/*-----------------------------------
+   Mobile Menu (hidden by default)
+-----------------------------------*/
+@media (max-width: 768px) {
+  nav { display: none; }
+  .mobile-menu-btn { display: block; }
+}
+
+/*-----------------------------------
+   Card & Button Utilities
+-----------------------------------*/
+.card {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.3s ease-in-out;
+}
+.card:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transform: scale(1.02);
+}
+.btn {
+  transition: all 0.3s ease-in-out;
+}
+/* Alias utility classes for legacy markup */
+.bg-brand-white { background-color: var(--color-bg); }
+.bg-brand-pure { background-color: var(--color-card-bg); }
+.bg-brand-gold { background-color: var(--color-gold); }
+.bg-brand-charcoal { background-color: var(--color-green); }
+.bg-brand-slate { background-color: var(--color-text-dark); }
+.text-brand-gold { color: var(--color-gold); }
+.text-brand-charcoal { color: var(--color-text-dark); }
+.text-brand-slate { color: var(--color-text-dark); }
+.border-brand-gold { border-color: var(--color-gold); }

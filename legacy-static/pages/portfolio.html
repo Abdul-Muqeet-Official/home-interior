@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio – HomeInteriorKarachi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { white: '#FAFAFC', pure: '#FFFFFF', gold: '#C5A880', champagne: '#F7F4F0', charcoal: '#121214', slate: '#1E1E24' } }, fontFamily: { serif: ['"Cormorant Garamond"', 'serif'], sans: ['"Plus Jakarta Sans"', 'sans-serif'] } } }
+    };
+  </script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-brand-white text-brand-slate antialiased">
+  <header class="fixed top-0 left-0 w-full z-50 glass-header py-4">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <a href="../index.html" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center border border-brand-gold text-brand-gold font-serif text-2xl group-hover:bg-brand-gold group-hover:text-white transition-colors">H</div>
+        <div>
+          <h1 class="font-serif text-lg md:text-xl font-semibold uppercase tracking-wide">HOME INTERIOR</h1>
+          <p class="text-xs text-brand-gold uppercase tracking-wider">KARACHI — BESPOKE LIVING STUDIO</p>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <main class="pt-24 container mx-auto px-6 md:px-12 py-12">
+    <h2 class="font-serif text-3xl md:text-4xl text-center mb-8">Our Transformations</h2>
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+  </main>
+
+  <footer class="bg-brand-white py-8 border-t border-gray-200 text-center text-xs text-gray-500">
+    © 2026 HomeInteriorKarachi. All rights reserved.
+  </footer>
+
+  <script src="../assets/js/store.js"></script>
+  <script>
+    function renderProjects(){
+      const projects = HIStore.getProjects();
+      const grid = document.getElementById('projects-grid');
+      if(projects.length===0){grid.innerHTML='<p class="text-center text-gray-500">No projects yet.</p>';return;}
+      projects.forEach(p=>{
+        const card=document.createElement('div');
+        card.className='group relative rounded-xl overflow-hidden shadow-lg cursor-pointer';
+        card.innerHTML=`
+          <img src="${p.before}" alt="Before ${p.title}" class="w-full h-64 object-cover group-hover:scale-105 transition-transform" />
+          <div class="absolute inset-0 bg-brand-charcoal/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6">
+            <h4 class="font-serif text-white text-xl mb-2">${p.title}</h4>
+            <p class="text-gray-200 text-sm">${p.location}</p>
+            <a href="${p.after}" target="_blank" class="mt-2 inline-block text-brand-gold underline">View After</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', renderProjects);
+  </script>
+</body>
+</html>

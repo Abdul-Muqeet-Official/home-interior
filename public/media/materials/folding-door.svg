@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-label="Folding door material study" preserveAspectRatio="xMidYMid slice">
+    <defs>
+  <linearGradient id="folding-door-wash" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#c2a97c" stop-opacity="1" />
+    <stop offset="45%" stop-color="#3d3427" stop-opacity="1" />
+    <stop offset="100%" stop-color="#221c14" stop-opacity="1" />
+  </linearGradient>
+  <radialGradient id="folding-door-glow" cx="30%" cy="22%" r="78%">
+    <stop offset="0%" stop-color="#fffaf0" stop-opacity="0.55" />
+    <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+  </radialGradient>
+  <filter id="folding-door-grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
+    <feColorMatrix type="saturate" values="0" />
+  </filter>
+  <rect width="1600" height="1000" filter="url(#folding-door-grain)" opacity="0.24" style="mix-blend-mode:soft-light" />
+  </defs>
+  <rect width="1600" height="1000" fill="url(#folding-door-wash)" />
+  <rect width="1600" height="1000" fill="url(#folding-door-glow)" />
+  <g>
+    <g>
+      <rect x="0" y="40" width="182" height="800" fill="#4a3f2f" />
+      <path d="M0 40 L92 90 L92 850 L0 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="0" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="178" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="92" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+    <g>
+      <rect x="186" y="40" width="182" height="800" fill="#3d3427" />
+      <path d="M186 40 L278 90 L278 850 L186 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="186" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="364" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="278" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+    <g>
+      <rect x="372" y="40" width="182" height="800" fill="#4a3f2f" />
+      <path d="M372 40 L464 90 L464 850 L372 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="372" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="550" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="464" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+    <g>
+      <rect x="558" y="40" width="182" height="800" fill="#3d3427" />
+      <path d="M558 40 L650 90 L650 850 L558 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="558" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="736" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="650" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+    <g>
+      <rect x="744" y="40" width="182" height="800" fill="#4a3f2f" />
+      <path d="M744 40 L836 90 L836 850 L744 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="744" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="922" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="836" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+    <g>
+      <rect x="930" y="40" width="182" height="800" fill="#3d3427" />
+      <path d="M930 40 L1022 90 L1022 850 L930 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="930" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="1108" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="1022" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+    <g>
+      <rect x="1116" y="40" width="182" height="800" fill="#4a3f2f" />
+      <path d="M1116 40 L1208 90 L1208 850 L1116 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="1116" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="1294" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="1208" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+    <g>
+      <rect x="1302" y="40" width="182" height="800" fill="#3d3427" />
+      <path d="M1302 40 L1394 90 L1394 850 L1302 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="1302" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="1480" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="1394" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+    <g>
+      <rect x="1488" y="40" width="182" height="800" fill="#4a3f2f" />
+      <path d="M1488 40 L1580 90 L1580 850 L1488 800 Z" fill="#c2a97c" opacity="0.16" />
+      <rect x="1488" y="40" width="4" height="800" fill="#221c14" opacity="0.6" />
+      <rect x="1666" y="40" width="4" height="800" fill="#c2a97c" opacity="0.28" />
+      <circle cx="1580" cy="880" r="5" fill="#c2a97c" opacity="0.6" />
+    </g>
+  </g>
+  <rect y="0" width="1600" height="40" fill="#221c14" opacity="0.5" />
+  <rect y="840" width="1600" height="160" fill="#221c14" opacity="0.55" />
+</svg>

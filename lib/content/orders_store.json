@@ -1,0 +1,257 @@
+[
+  {
+    "id": "ord_1791395148602_e64as",
+    "orderNumber": "HI-2026-1840",
+    "userId": null,
+    "customerName": "Kamran Siddiqui",
+    "customerPhone": "03212345678",
+    "customerEmail": "kamran.s@example.com",
+    "deliveryAddress": "Street 14, Badar Commercial, DHA Phase 5, Karachi",
+    "notes": "Requesting site survey and sample inspection.",
+    "items": [
+      {
+        "productId": "demo-spc-01",
+        "slug": "matte-charcoal-spc-flooring",
+        "name": "Matte Charcoal SPC Flooring",
+        "category": "SPC Flooring",
+        "quantity": 4,
+        "unitPrice": null,
+        "subtotal": null,
+        "dimensions": null,
+        "priceLabel": "PKR 195,000",
+        "availability": "In Stock"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-07T17:45:48.602Z",
+    "updatedAt": "2026-10-07T17:45:48.602Z"
+  },
+  {
+    "id": "ord_1791390862046_kmihj",
+    "orderNumber": "HI-2026-6393",
+    "userId": null,
+    "customerName": "Tariq Alvi",
+    "customerPhone": "03001234567",
+    "customerEmail": "tariq.alvi@example.com",
+    "deliveryAddress": "DHA Phase 6, Karachi",
+    "notes": "Please bring sample kit to site.",
+    "items": [
+      {
+        "productId": "demo-sample-01",
+        "slug": "aurora-pearl-sheen",
+        "name": "Aurora Pearl Sheen Wallpaper",
+        "category": "Wallpaper",
+        "quantity": 3,
+        "unitPrice": null,
+        "subtotal": null,
+        "priceLabel": "Price on consultation",
+        "availability": "On Consultation"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-07T16:34:22.046Z",
+    "updatedAt": "2026-10-07T16:34:22.046Z"
+  },
+  {
+    "id": "ord_1791311991362_pieh0",
+    "orderNumber": "HI-2026-3665",
+    "userId": null,
+    "customerName": "Ahmad Khan QA",
+    "customerPhone": "03001234567",
+    "customerEmail": "ahmad.qa@example.com",
+    "deliveryAddress": "DHA Phase 6, Karachi",
+    "notes": "Please bring material sample swatches.",
+    "items": [
+      {
+        "productId": "demo-prod-1",
+        "slug": "matte-charcoal-spc-flooring",
+        "name": "Matte Charcoal SPC Flooring",
+        "category": "SPC Flooring",
+        "quantity": 2,
+        "unitPrice": null,
+        "subtotal": null,
+        "dimensions": null,
+        "priceLabel": "PKR 195,000",
+        "availability": "In Stock"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-06T18:39:51.362Z",
+    "updatedAt": "2026-10-06T18:39:51.362Z"
+  },
+  {
+    "id": "ord_1791311808035_dmvvp",
+    "orderNumber": "HI-2026-7598",
+    "userId": null,
+    "customerName": "Ahmad Khan QA",
+    "customerPhone": "03001234567",
+    "customerEmail": "ahmad.qa@example.com",
+    "deliveryAddress": "DHA Phase 6, Karachi",
+    "notes": "Please bring material sample swatches.",
+    "items": [
+      {
+        "productId": "demo-prod-1",
+        "slug": "matte-charcoal-spc-flooring",
+        "name": "Matte Charcoal SPC Flooring",
+        "category": "SPC Flooring",
+        "quantity": 2,
+        "unitPrice": null,
+        "subtotal": null,
+        "dimensions": null,
+        "priceLabel": "PKR 195,000",
+        "availability": "In Stock"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-06T18:36:48.035Z",
+    "updatedAt": "2026-10-06T18:36:48.035Z"
+  },
+  {
+    "id": "ord_1791307616345_8ofxc",
+    "orderNumber": "HI-2026-2009",
+    "userId": "b225dc2a-4c52-487b-86dc-028c0bd62eaf",
+    "customerName": "Hassan Al-Karachi",
+    "customerPhone": "03009876543",
+    "customerEmail": "test_client_1791307614437@gmail.com",
+    "deliveryAddress": "Bungalow 14, Street 9, DHA Phase 5, Karachi",
+    "notes": "Urgent architectural sampling requested.",
+    "items": [
+      {
+        "productId": "spc-flooring-oak",
+        "slug": "spc-flooring-oak",
+        "name": "Custom Product",
+        "category": "Material Finish",
+        "quantity": 3,
+        "unitPrice": null,
+        "subtotal": null,
+        "priceLabel": "Price on consultation",
+        "availability": "On Consultation"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-06T17:26:56.345Z",
+    "updatedAt": "2026-10-06T17:26:56.345Z"
+  },
+  {
+    "id": "ord_1791307181118_72sda",
+    "orderNumber": "HI-2026-8705",
+    "userId": "81479c60-fe02-4507-a11e-6f732e6eb8ef",
+    "customerName": "Hassan Al-Karachi",
+    "customerPhone": "03009876543",
+    "customerEmail": "test_client_1791307178713@gmail.com",
+    "deliveryAddress": "Bungalow 14, Street 9, DHA Phase 5, Karachi",
+    "notes": "Urgent architectural sampling requested.",
+    "items": [
+      {
+        "productId": "spc-flooring-oak",
+        "slug": "spc-flooring-oak",
+        "name": "Custom Product",
+        "category": "Material Finish",
+        "quantity": 3,
+        "unitPrice": null,
+        "subtotal": null,
+        "priceLabel": "Price on consultation",
+        "availability": "On Consultation"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-06T17:19:41.118Z",
+    "updatedAt": "2026-10-06T17:19:41.118Z"
+  },
+  {
+    "id": "ord_1791306904206_bjeoc",
+    "orderNumber": "HI-2026-3685",
+    "userId": "198aae2b-9804-4e4f-81b3-a5175f7d9760",
+    "customerName": "Hassan Al-Karachi",
+    "customerPhone": "03009876543",
+    "customerEmail": "test_client_1791306902214@gmail.com",
+    "deliveryAddress": "Bungalow 14, Street 9, DHA Phase 5, Karachi",
+    "notes": "Urgent architectural sampling requested.",
+    "items": [
+      {
+        "productId": "spc-flooring-oak",
+        "slug": "spc-flooring-oak",
+        "name": "Custom Product",
+        "category": "Material Finish",
+        "quantity": 3,
+        "unitPrice": null,
+        "subtotal": null,
+        "priceLabel": "Price on consultation",
+        "availability": "On Consultation"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-06T17:15:04.206Z",
+    "updatedAt": "2026-10-06T17:15:04.206Z"
+  },
+  {
+    "id": "ord_1791304542834_qtgaz",
+    "orderNumber": "HI-2026-4676",
+    "userId": null,
+    "customerName": "Imran Khan",
+    "customerPhone": "03001234567",
+    "customerEmail": "imran.test@example.com",
+    "deliveryAddress": "House 24, Street 8, DHA Phase 5, Karachi",
+    "notes": "Please deliver before Friday afternoon.",
+    "items": [
+      {
+        "productId": "laminate-flooring-oak",
+        "slug": "laminate-flooring-oak",
+        "name": "Custom Product",
+        "category": "Material Finish",
+        "quantity": 2,
+        "unitPrice": null,
+        "subtotal": null,
+        "priceLabel": "Price on consultation",
+        "availability": "On Consultation"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-06T16:35:42.834Z",
+    "updatedAt": "2026-10-06T16:35:42.834Z"
+  },
+  {
+    "id": "ord_1791304519071_3jv2i",
+    "orderNumber": "HI-2026-8487",
+    "userId": null,
+    "customerName": "Imran Khan",
+    "customerPhone": "03001234567",
+    "customerEmail": "imran.test@example.com",
+    "deliveryAddress": "House 24, Street 8, DHA Phase 5, Karachi",
+    "notes": "Please deliver before Friday afternoon.",
+    "items": [
+      {
+        "productId": "laminate-flooring-oak",
+        "slug": "laminate-flooring-oak",
+        "name": "Custom Product",
+        "category": "Material Finish",
+        "quantity": 2,
+        "unitPrice": null,
+        "subtotal": null,
+        "priceLabel": "Price on consultation",
+        "availability": "On Consultation"
+      }
+    ],
+    "subtotal": 0,
+    "total": 0,
+    "status": "whatsapp_pending",
+    "createdAt": "2026-10-06T16:35:19.071Z",
+    "updatedAt": "2026-10-06T16:35:19.071Z"
+  }
+]
