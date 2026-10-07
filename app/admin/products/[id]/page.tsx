@@ -40,7 +40,7 @@ export default async function EditProductPage({ params }: PageProps) {
     notFound();
   }
 
-  const rawSpecs = (product.specs && typeof product.specs === "object" ? product.specs : {}) as Record<string, any>;
+  const rawSpecs = (product.specs && typeof product.specs === "object" ? product.specs : {}) as Record<string, unknown>;
 
   /** Canonical row -> the friendly field names ProductForm expects. */
   const initialData = {
@@ -55,8 +55,8 @@ export default async function EditProductPage({ params }: PageProps) {
     unit: product.unit ?? "",
     price_label: product.price_label ?? "",
     specifications: rawSpecs,
-    dimensions: rawSpecs.dimensions ?? { length: "", width: "", height: "", depth: "", unit: "mm" },
-    stock_status: rawSpecs.stock_status ?? rawSpecs.availability ?? "in_stock",
+    dimensions: (rawSpecs.dimensions as Record<string, string>) ?? { length: "", width: "", height: "", depth: "", unit: "mm" },
+    stock_status: (typeof rawSpecs.stock_status === "string" ? rawSpecs.stock_status : typeof rawSpecs.availability === "string" ? rawSpecs.availability : "in_stock"),
     tags: Array.isArray(rawSpecs.tags) ? rawSpecs.tags : [],
     video_url: rawSpecs.video_url ?? "",
     video_poster: rawSpecs.video_poster ?? "",

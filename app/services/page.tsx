@@ -1,9 +1,11 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ConsultationCTA from "@/components/ui/ConsultationCTA";
 import ProcessTimeline from "@/components/ui/ProcessTimeline";
 import ServicesSection from "@/components/ui/ServicesSection";
+import SectionSkeleton from "@/components/ui/SectionSkeleton";
 import { getServices } from "@/lib/supabase/queries";
 
 export const revalidate = 300;
@@ -14,9 +16,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/services" },
 };
 
-export default async function ServicesPage() {
+async function ServicesContent() {
   const services = await getServices();
+  return <ServicesSection services={services} heading="How we engage" headingId="services-list" />;
+}
 
+export default function ServicesPage() {
   return (
     <main id="main">
       <section className="relative isolate flex h-[70svh] min-h-[480px] w-full items-end overflow-hidden">
@@ -44,7 +49,9 @@ export default async function ServicesPage() {
         <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Services" }]} />
       </div>
 
-      <ServicesSection services={services} heading="How we engage" headingId="services-list" />
+      <Suspense fallback={<SectionSkeleton eyebrow="Capabilities" heading="Loading Services..." cardCount={3} compact />}>
+        <ServicesContent />
+      </Suspense>
 
       <ProcessTimeline />
       <ConsultationCTA />

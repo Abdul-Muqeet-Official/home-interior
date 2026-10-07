@@ -1,11 +1,17 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ConsultationCTA from "@/components/ui/ConsultationCTA";
 import ReviewsViewer from "@/components/ui/ReviewsViewer";
-import AddReviewForm from "@/components/ui/AddReviewForm";
 import { REVIEWS } from "@/lib/content/editorial";
 import { getReviews } from "@/lib/supabase/queries";
+
+// Dynamic import for interactive form below the fold
+const AddReviewForm = dynamic(() => import("@/components/ui/AddReviewForm"), {
+  loading: () => <div className="h-64 rounded-editorial bg-charcoal/50 animate-pulse" />,
+});
 
 export const revalidate = 300;
 
@@ -15,9 +21,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "/reviews" },
 };
 
-export default async function ReviewsPage() {
+async function ReviewsContent() {
   const reviews = await getReviews();
 
+  return (
+    <div className="mt-14">
+      <ReviewsViewer reviews={reviews} />
+    </div>
+  );
+}
+
+export default function ReviewsPage() {
   return (
     <main id="main">
       <section className="relative isolate flex h-[65svh] min-h-[440px] w-full items-end overflow-hidden">
@@ -36,9 +50,7 @@ export default async function ReviewsPage() {
           <h1 id="reviews-heading" className="display-1 mt-4 max-w-3xl text-white text-shadow-editorial">
             {REVIEWS.heading}
           </h1>
-          {reviews.length > 0 && (
-            <p className="mt-4 max-w-xl text-white/85">{REVIEWS.subtext}</p>
-          )}
+          <p className="mt-4 max-w-xl text-white/85">{REVIEWS.subtext}</p>
         </div>
       </section>
 
@@ -49,9 +61,9 @@ export default async function ReviewsPage() {
             tone="dark"
           />
 
-          <div className="mt-14">
-            <ReviewsViewer reviews={reviews} />
-          </div>
+          <Suspense fallback={<div className="mt-14 h-96 rounded-editorial bg-stone/5 animate-pulse" />}>
+            <ReviewsContent />
+          </Suspense>
 
           <div className="mt-20 max-w-3xl mx-auto">
             <AddReviewForm />
@@ -63,4 +75,3 @@ export default async function ReviewsPage() {
     </main>
   );
 }
-

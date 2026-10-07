@@ -5,6 +5,7 @@
  * when the record actually carries it.
  */
 
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -23,6 +24,12 @@ export const dynamicParams = true;
 
 type PageProps = { params: { slug: string } };
 
+export async function generateStaticParams() {
+  const { getProducts } = await import("@/lib/supabase/queries");
+  const products = await getProducts({ limit: 40 });
+  return products.map((product) => ({ slug: product.slug }));
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const product = await getProductBySlug(params.slug);
   if (!product) return { title: "Product not found" };
@@ -36,11 +43,32 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+async function RelatedProductsStream({ product }: { product: import("@/lib/content/types").Product }) {
+  const related = await getRelatedProducts(product, 3);
+  if (related.length === 0) return null;
+
+  return (
+    <section className="section" aria-labelledby="related-collection">
+      <div className="container-wide">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <h2 id="related-collection" className="display-3 text-charcoal">
+            Related collection
+          </h2>
+          <Link href={`/materials/${product.categorySlug}`} className="link-editorial">
+            All {product.categoryName}
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+        <ProductGrid products={related} columns={3} className="mt-12" />
+      </div>
+    </section>
+  );
+}
+
 export default async function ProductPage({ params }: PageProps) {
   const product = await getProductBySlug(params.slug);
   if (!product) notFound();
 
-  const related = await getRelatedProducts(product, 3);
   const galleryImages = product.gallery;
   const productAlt = `${product.name}${product.code ? ` (${product.code})` : ""}`;
   const whatsappHref = SITE.whatsappUrlWithText(
@@ -216,22 +244,9 @@ export default async function ProductPage({ params }: PageProps) {
         </div>
       </section>
 
-      {related.length > 0 && (
-        <section className="section" aria-labelledby="related-collection">
-          <div className="container-wide">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <h2 id="related-collection" className="display-3 text-charcoal">
-                Related collection
-              </h2>
-              <Link href={`/materials/${product.categorySlug}`} className="link-editorial">
-                All {product.categoryName}
-                <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            <ProductGrid products={related} columns={3} className="mt-12" />
-          </div>
-        </section>
-      )}
+      <Suspense fallback={<div className="container-wide py-12"><div className="h-48 rounded-editorial bg-stone/5 animate-pulse" /></div>}>
+        <RelatedProductsStream product={product} />
+      </Suspense>
 
       <section className="section-tight pb-20">
         <div className="container-wide">

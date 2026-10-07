@@ -62,7 +62,7 @@ export default function AdminHomepagePage() {
     fetchData();
   }, []);
 
-  const handleHeroChange = (field: string, value: any) => {
+  const handleHeroChange = (field: string, value: unknown) => {
     setData((prev) => {
       if (!prev) return null;
       return {

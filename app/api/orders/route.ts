@@ -49,12 +49,17 @@ export async function POST(request: NextRequest) {
       items: rawItems,
     } = parsed.data;
 
-    // Server-side authoritative validation of every product
+    // Parallel server-side validation of ordered items
+    const fetchedProducts = await Promise.all(
+      rawItems.map((raw) => getProductBySlug(raw.slug))
+    );
+
     const orderItems: OrderItemRecord[] = [];
     let serverSubtotal = 0;
 
-    for (const raw of rawItems) {
-      const product = await getProductBySlug(raw.slug);
+    for (let i = 0; i < rawItems.length; i++) {
+      const raw = rawItems[i];
+      const product = fetchedProducts[i];
 
       if (product) {
         if (product.stockStatus === "out_of_stock") {
@@ -71,7 +76,7 @@ export async function POST(request: NextRequest) {
         if (lineTotal) serverSubtotal += lineTotal;
 
         orderItems.push({
-          productId: product.id ?? raw.productId,
+          productId: raw.productId,
           slug: product.slug,
           name: product.name,
           category: product.categoryName,
@@ -85,7 +90,6 @@ export async function POST(request: NextRequest) {
           availability: product.stockStatus ? product.stockStatus.replace("_", " ").toUpperCase() : "In Stock",
         });
       } else {
-        // Fallback if item is in catalog
         orderItems.push({
           productId: raw.productId,
           slug: raw.slug,

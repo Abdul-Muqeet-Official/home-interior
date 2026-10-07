@@ -44,7 +44,7 @@ export default function SettingsPage() {
     }
   };
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: unknown) => {
     setSettings(prev => prev ? { ...prev, [field]: value } : null);
   };
 

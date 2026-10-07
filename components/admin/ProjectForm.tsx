@@ -53,7 +53,7 @@ export function ProjectForm({ initialData }: { initialData?: Partial<ProjectForm
     sort_order: initialData?.sort_order?.toString() || "0",
   });
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: unknown) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 

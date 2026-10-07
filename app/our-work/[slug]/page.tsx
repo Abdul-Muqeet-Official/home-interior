@@ -3,6 +3,7 @@
  * Project detail. Only factual Supabase content is displayed.
  */
 
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,7 +20,7 @@ export const dynamicParams = true;
 type PageProps = { params: { slug: string } };
 
 export async function generateStaticParams() {
-  const projects = await getProjects();
+  const projects = await getProjects({ limit: 40 });
   return projects.map((project) => ({ slug: project.slug }));
 }
 
@@ -36,12 +37,53 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+async function RelatedProjectsStream({ currentSlug }: { currentSlug: string }) {
+  const allProjects = await getProjects({ limit: 4 });
+  const related = allProjects.filter((entry) => entry.slug !== currentSlug).slice(0, 3);
+  if (related.length === 0) return null;
+
+  return (
+    <section className="section bg-surface" aria-labelledby="related-projects">
+      <div className="container-wide">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <h2 id="related-projects" className="display-3 text-charcoal">
+            More projects
+          </h2>
+          <Link href="/our-work" className="link-editorial">
+            All work
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+
+        <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          {related.map((entry) => (
+            <li key={entry.slug}>
+              <Link href={`/our-work/${entry.slug}`} className="group block">
+                <MediaFrame
+                  src={entry.heroImage}
+                  alt={entry.title}
+                  ratio="4 / 3"
+                  sizes="(max-width: 640px) 92vw, 400px"
+                  className="rounded-card border border-line"
+                  imageClassName="transition-transform duration-[1200ms] ease-editorial group-hover:scale-[1.04]"
+                  fallbackSrc="/media/band-light.svg"
+                />
+                <h3 className="mt-5 text-xl text-charcoal">{entry.title}</h3>
+                <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-muted">
+                  {[entry.type, entry.location, entry.year].filter(Boolean).join(" · ")}
+                </p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 export default async function ProjectPage({ params }: PageProps) {
   const project = await getProjectBySlug(params.slug);
   if (!project) notFound();
-
-  const allProjects = await getProjects();
-  const related = allProjects.filter((entry) => entry.slug !== project.slug).slice(0, 3);
 
   const facts = [
     { label: "Location", value: project.location },
@@ -207,43 +249,9 @@ export default async function ProjectPage({ params }: PageProps) {
         </section>
       )}
 
-      {related.length > 0 && (
-        <section className="section bg-surface" aria-labelledby="related-projects">
-          <div className="container-wide">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <h2 id="related-projects" className="display-3 text-charcoal">
-                More projects
-              </h2>
-              <Link href="/our-work" className="link-editorial">
-                All work
-                <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-
-            <ul className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-              {related.map((entry) => (
-                <li key={entry.slug}>
-                  <Link href={`/our-work/${entry.slug}`} className="group block">
-                    <MediaFrame
-                      src={entry.heroImage}
-                      alt={entry.title}
-                      ratio="4 / 3"
-                      sizes="(max-width: 640px) 92vw, 400px"
-                      className="rounded-card border border-line"
-                      imageClassName="transition-transform duration-[1200ms] ease-editorial group-hover:scale-[1.04]"
-                      fallbackSrc="/media/band-light.svg"
-                    />
-                    <h3 className="mt-5 text-xl text-charcoal">{entry.title}</h3>
-                    <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-muted">
-                      {[entry.type, entry.location, entry.year].filter(Boolean).join(" · ")}
-                    </p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
+      <Suspense fallback={<div className="container-wide py-12"><div className="h-64 rounded-editorial bg-surface animate-pulse" /></div>}>
+        <RelatedProjectsStream currentSlug={project.slug} />
+      </Suspense>
 
       <ConsultationCTA />
     </main>

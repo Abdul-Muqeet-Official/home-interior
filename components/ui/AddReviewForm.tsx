@@ -33,10 +33,11 @@ export default function AddReviewForm() {
       }
 
       setStatus("success");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Submission error:", err);
       setStatus("error");
-      setErrorMessage(err.message || "An unexpected error occurred.");
+      const message = err instanceof Error ? err.message : "An unexpected error occurred.";
+      setErrorMessage(message);
     }
   }
 

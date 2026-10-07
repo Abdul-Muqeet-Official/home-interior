@@ -90,7 +90,7 @@ export function CategoryForm({ initialData }: { initialData?: Partial<CategoryFo
     fetchParents();
   }, [params.id]);
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: unknown) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 

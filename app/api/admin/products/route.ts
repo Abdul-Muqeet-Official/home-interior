@@ -41,10 +41,31 @@ export async function GET(request: NextRequest) {
   const admin = requireAdmin();
   if (!admin) return NOT_CONFIGURED;
 
-  const { data, error } = await admin
+  const searchParams = request.nextUrl.searchParams;
+  const search = searchParams.get("search")?.trim();
+  const status = searchParams.get("status");
+  const limit = Math.min(Math.max(parseInt(searchParams.get("limit") || "100", 10), 1), 500);
+  const offset = Math.max(parseInt(searchParams.get("offset") || "0", 10), 0);
+
+  let query = admin
     .from("products")
-    .select("*, categories(name, slug)")
-    .order("sort_order", { ascending: true });
+    .select(
+      "id, name, slug, description, category_id, code, price, currency, unit, is_published, sort_order, categories(name, slug), created_at, updated_at"
+    )
+    .order("sort_order", { ascending: true })
+    .range(offset, offset + limit - 1);
+
+  if (status === "published") {
+    query = query.eq("is_published", true);
+  } else if (status === "draft") {
+    query = query.eq("is_published", false);
+  }
+
+  if (search) {
+    query = query.or(`name.ilike.%${search}%,slug.ilike.%${search}%,code.ilike.%${search}%`);
+  }
+
+  const { data, error } = await query;
 
   if (error) return dbError(error);
   return NextResponse.json({ products: data ?? [] });

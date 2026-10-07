@@ -3,6 +3,7 @@ import { getSupabaseServerClient } from "@/lib/supabase/public";
 import type { SearchResult } from "@/lib/content/types";
 import { STUDIO_CATEGORIES } from "@/lib/content/catalog";
 import { STUDIO_SERVICES } from "@/lib/content/services";
+import { slugify } from "@/lib/utils";
 
 export const runtime = "edge";
 
@@ -106,9 +107,9 @@ export async function GET(request: Request) {
         .limit(15),
       client
         .from("projects")
-        .select("name, slug")
+        .select("title")
         .eq("is_published", true)
-        .ilike("name", `%${escapeLike(q)}%`)
+        .ilike("title", `%${escapeLike(q)}%`)
         .limit(6),
     ]);
 
@@ -166,8 +167,12 @@ export async function GET(request: Request) {
       results.push({ group: "Products", title: name, subtitle: "Product", href: `/products/${slug}` });
     }
 
-    for (const p of projectsRes.data ?? []) {
-      results.push({ group: "Our Work", title: p.name, subtitle: "Portfolio Project", href: `/our-work/${p.slug}` });
+    for (const p of (projectsRes.data ?? []) as Array<{ title?: string; name?: string; slug?: string }>) {
+      const title = (p.title || p.name || "").trim();
+      const pSlug = p.slug || slugify(title);
+      if (title && pSlug) {
+        results.push({ group: "Our Work", title, subtitle: "Portfolio Project", href: `/our-work/${pSlug}` });
+      }
     }
 
     // Services come from the studio's approved catalogue: this project has no

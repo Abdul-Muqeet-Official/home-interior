@@ -47,8 +47,10 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
-    fetchProducts();
-    // fetchProducts reads search/statusFilter from state; re-run when they change.
+    const timer = setTimeout(() => {
+      fetchProducts();
+    }, 250);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, statusFilter]);
 

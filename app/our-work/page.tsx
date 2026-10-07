@@ -1,5 +1,5 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import ConsultationCTA from "@/components/ui/ConsultationCTA";
@@ -7,11 +7,11 @@ import EditorialTicker from "@/components/ui/EditorialTicker";
 import MediaFrame from "@/components/ui/MediaFrame";
 import WorkMediaRail from "@/components/ui/WorkMediaRail";
 import SectionHeading from "@/components/ui/SectionHeading";
+import SectionSkeleton from "@/components/ui/SectionSkeleton";
 import { LOCAL_WORK_MEDIA } from "@/lib/content/work-media";
 import { FALSE_CEILING_COPY, falseCeilingPreview, FALSE_CEILING_ROUTE } from "@/lib/content/false-ceiling";
 import { WORK } from "@/lib/content/editorial";
 import { getProjects } from "@/lib/supabase/queries";
-import { cx } from "@/lib/utils";
 
 export const revalidate = 300;
 
@@ -22,10 +22,33 @@ export const metadata: Metadata = {
   alternates: { canonical: "/our-work" },
 };
 
-export default async function OurWorkPage() {
+async function WorkProjectsStream() {
   const projects = await getProjects();
   const hasProjects = projects.length > 0;
 
+  return (
+    <section className="section" aria-labelledby={hasProjects ? "our-work-window" : undefined}>
+      {hasProjects && (
+        <div className="container-wide">
+          <SectionHeading
+            id="our-work-window"
+            eyebrow="Project Window"
+            heading="Recent projects."
+            description="A selection of completed rooms, renovations and material applications."
+          />
+        </div>
+      )}
+      <div className={hasProjects ? "mt-14" : ""}>
+        <WorkMediaRail
+          projects={projects}
+          localMedia={LOCAL_WORK_MEDIA}
+        />
+      </div>
+    </section>
+  );
+}
+
+export default function OurWorkPage() {
   return (
     <main id="main">
       <section className="relative isolate flex h-[75svh] min-h-[500px] w-full items-end overflow-hidden">
@@ -52,25 +75,9 @@ export default async function OurWorkPage() {
 
       <EditorialTicker />
 
-      <section className="section" aria-labelledby={hasProjects ? "our-work-window" : undefined}>
-        {hasProjects && (
-          <div className="container-wide">
-            <SectionHeading
-              id="our-work-window"
-              eyebrow="Project Window"
-              heading="Recent projects."
-              description="A selection of completed rooms, renovations and material applications."
-            />
-          </div>
-        )}
-        <div className={cx(hasProjects && "mt-14")}>
-          <WorkMediaRail
-            projects={projects}
-            localMedia={LOCAL_WORK_MEDIA}
-            
-          />
-        </div>
-      </section>
+      <Suspense fallback={<SectionSkeleton eyebrow="Project Window" heading="Loading Recent Commissions..." />}>
+        <WorkProjectsStream />
+      </Suspense>
 
       <section className="section section-surface">
         <div className="container-editorial">
@@ -90,7 +97,6 @@ export default async function OurWorkPage() {
                   ratio="4 / 5"
                   sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
                   className="rounded-card border border-line"
-                  
                   priority={index === 0}
                 />
                 <p className="mt-5 text-sm font-medium tracking-wide text-charcoal">
@@ -106,7 +112,3 @@ export default async function OurWorkPage() {
     </main>
   );
 }
-
-
-
-

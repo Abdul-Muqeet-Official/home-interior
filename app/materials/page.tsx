@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -10,7 +11,6 @@ import { getCategories } from "@/lib/supabase/queries";
 import { getSupabaseServerClient } from "@/lib/supabase/public";
 import { ensureAbsoluteImagePath } from "@/lib/content/image-src";
 import { artworkForCategorySlug } from "@/lib/content/media";
-import { Suspense } from "react";
 import MaterialsExplorer, { type ExplorerCollection } from "@/components/ui/MaterialsExplorer";
 import {
   buildGroups,
@@ -37,7 +37,19 @@ type CollectionRow = {
   country?: string | null;
 };
 
-export default async function MaterialsPage() {
+async function CategoryRailStream() {
+  const categories = await getCategories();
+  return (
+    <>
+      <SectionHeading heading="Explore by Category" />
+      <div className="container-wide pb-20">
+        <MaterialRail categories={categories} />
+      </div>
+    </>
+  );
+}
+
+async function ExplorerStream() {
   const client = getSupabaseServerClient();
   const [
     categories,
@@ -78,52 +90,33 @@ export default async function MaterialsPage() {
     parent_id: string | null;
     country?: string | null;
   }>) {
-    categoryIndex.set(row.id, { slug: row.slug, name: row.name, parentId: row.parent_id, country: row.country });
+    categoryIndex.set(row.id, {
+      slug: row.slug,
+      name: row.name,
+      parentId: row.parent_id,
+      country: row.country,
+    });
   }
 
-  /**
-   * Walk parent_id chain up to the canonical root category.
-   */
-  const resolveRoot = (
-    parentId: string | null
-  ): { slug: string; name: string } | null => {
-    let current = parentId ? categoryIndex.get(parentId) : undefined;
-    if (!current) return null;
-
-    const seen = new Set<string>();
-    while (current?.parentId && !seen.has(current.slug)) {
-      seen.add(current.slug);
-      const next = categoryIndex.get(current.parentId);
-      if (!next) break;
-      current = next;
+  const resolveRoot = (catId: string): { slug: string; name: string } | null => {
+    let current = categoryIndex.get(catId);
+    let guard = 0;
+    while (current && current.parentId && guard < 10) {
+      const parent = categoryIndex.get(current.parentId);
+      if (!parent) break;
+      current = parent;
+      guard++;
     }
-    return { slug: current.slug, name: current.name };
+    return current ? { slug: current.slug, name: current.name } : null;
   };
-
-  // Identify root categories that own child collections
-  const hasChildrenMap = new Set<string>();
-  collections.forEach((c) => {
-    if (c.parent_id) hasChildrenMap.add(c.parent_id);
-  });
 
   const explorerCollections: ExplorerCollection[] = [];
 
   for (const row of collections) {
+    const classification = classifyCategory({ slug: row.slug, name: row.name });
     const isRoot = !row.parent_id;
-
-    // Skip intermediate country grouping containers from appearing as duplicate cards
-    if (row.slug === "wallpaper-china" || row.slug === "wallpaper-korea") {
-      continue;
-    }
-
-    // If it's a root category and it HAS child collections, the collections will be rendered as cards
-    if (isRoot && hasChildrenMap.has(row.id)) {
-      continue;
-    }
-
-    const root = isRoot ? { slug: row.slug, name: row.name } : resolveRoot(row.parent_id);
-    const rootSlug = root?.slug ?? row.slug;
-    const classification = classifyCategory({ slug: rootSlug, name: root?.name ?? row.name });
+    const root = row.parent_id ? resolveRoot(row.parent_id) : null;
+    const rootSlug = root?.slug ?? classification.groupKey;
 
     let subKey: string | null = null;
     let subLabel: string | null = null;
@@ -165,7 +158,6 @@ export default async function MaterialsPage() {
     });
   }
 
-  // Published products
   const explorerProducts: ExplorerCollection[] = [];
   for (const row of (productRows ?? []) as Array<{
     id: string;
@@ -224,6 +216,21 @@ export default async function MaterialsPage() {
   const explorerTags = buildTags(categories);
 
   return (
+    <>
+      <SectionHeading heading="All Collections" />
+      <div className="container-wide pb-20">
+        <MaterialsExplorer
+          collections={explorerItems}
+          groups={explorerGroups}
+          tags={explorerTags}
+        />
+      </div>
+    </>
+  );
+}
+
+export default function MaterialsPage() {
+  return (
     <main id="main">
       <section className="relative isolate flex h-[75svh] min-h-[500px] w-full items-end overflow-hidden">
         <Image
@@ -248,15 +255,19 @@ export default async function MaterialsPage() {
 
       <EditorialTicker />
 
-      <SectionHeading heading="Explore by Category" />
-      <div className="container-wide pb-20">
-        <MaterialRail categories={categories} />
-      </div>
+      <Suspense
+        fallback={
+          <div className="container-wide py-12">
+            <div className="h-64 bg-surface/40 animate-pulse rounded-editorial" />
+          </div>
+        }
+      >
+        <CategoryRailStream />
+      </Suspense>
 
-      <SectionHeading heading="All Collections" />
-      <div className="container-wide pb-20">
-        <Suspense
-          fallback={
+      <Suspense
+        fallback={
+          <div className="container-wide pb-20">
             <div className="min-h-[320px]">
               <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {Array.from({ length: 8 }, (_, index) => (
@@ -270,15 +281,12 @@ export default async function MaterialsPage() {
                 ))}
               </div>
             </div>
-          }
-        >
-          <MaterialsExplorer
-            collections={explorerItems}
-            groups={explorerGroups}
-            tags={explorerTags}
-          />
-        </Suspense>
-      </div>
+          </div>
+        }
+      >
+        <ExplorerStream />
+      </Suspense>
+
       <ConsultationCTA />
     </main>
   );

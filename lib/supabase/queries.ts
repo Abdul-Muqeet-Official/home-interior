@@ -82,25 +82,85 @@ function warnOnce(scope: string, error: unknown) {
   warn(scope, error);
 }
 
-/**
- * Select rows from a table with an explicit publication/active filter.
- * Errors fail closed: an older or incompatible schema must never cause an
- * unfiltered read of draft or inactive business records.
- */
 import { cache } from "react";
 
+export interface QueryOptions {
+  limit?: number;
+  offset?: number;
+  select?: string;
+  orderBy?: string;
+  ascending?: boolean;
+}
+
+export interface ProductQueryOptions extends QueryOptions {
+  categorySlug?: string;
+  categoryId?: string;
+}
+
+export interface ProjectQueryOptions extends QueryOptions {
+  featured?: boolean;
+}
+
+export interface ReviewQueryOptions extends QueryOptions {
+  verifiedOnly?: boolean;
+}
+
+export interface ServiceQueryOptions extends QueryOptions {}
+
+export const PRODUCT_BASE_COLUMNS =
+  "id, name, title, slug, code, description, specs, dimensions, dimension_height, dimension_width, dimension_depth, dimension_unit, stock_status, availability_status, price_label, price, original_price, currency, unit, discount_badge, image_path, image_url, gallery_paths, category, category_id, category_slug, is_published, sort_order";
+
+export const PRODUCT_SUMMARY_COLUMNS =
+  "id, name, title, slug, code, price_label, price, original_price, currency, unit, discount_badge, image_path, image_url, category, category_id, category_slug, stock_status, availability_status, is_published, sort_order";
+
+export const PROJECT_BASE_COLUMNS =
+  "id, title, slug, location, category, type, short_description, description, before_image, after_image, before_image_path, after_image_path, gallery_paths, image_path, hero_image_path, video_path, video_url, video_paths, video_poster_path, year, is_featured, is_published, sort_order";
+
+export const PROJECT_SUMMARY_COLUMNS =
+  "id, title, slug, location, type, short_description, image_path, hero_image_path, video_path, video_url, video_poster_path, year, is_featured, is_published, sort_order";
+
+export const REVIEW_BASE_COLUMNS =
+  "id, client_name, location, project_type, rating, testimonial, is_published, sort_order";
+
+export const SERVICE_BASE_COLUMNS =
+  "id, title, slug, short_description, description, image_path, is_published, sort_order";
+
+export const CATEGORY_BASE_COLUMNS =
+  "id, name, title, slug, description, image_path, image_url, sort_order, is_active, parent_id, eyebrow, heading, lede, edit_heading, edit_note, rail_aria, category_action, cover_image_alt, country, page_count, stats_json";
+
+/**
+ * Select rows from a table with explicit publication/active filters, lean column projections,
+ * pagination limits, and ordering. Errors fail closed.
+ */
 async function fetchRowsInner<T>(
   table: string,
   publishedColumn: "is_published" | "is_active" | null,
-  columns = "*"
+  optionsOrColumns: string | QueryOptions = "*"
 ): Promise<T[]> {
   const client = getSupabaseServerClient();
   if (!client) return [];
 
+  const opts: QueryOptions =
+    typeof optionsOrColumns === "string"
+      ? { select: optionsOrColumns }
+      : optionsOrColumns;
+
+  const columns = opts.select ?? "*";
+  const limit = opts.limit ?? 500;
+  const offset = opts.offset ?? 0;
+
   try {
     let query = client.from(table).select(columns);
     if (publishedColumn) query = query.eq(publishedColumn, true);
-    const result = await query.limit(500);
+    if (opts.orderBy) {
+      query = query.order(opts.orderBy, { ascending: opts.ascending ?? true });
+    }
+    if (offset > 0) {
+      query = query.range(offset, offset + limit - 1);
+    } else {
+      query = query.limit(limit);
+    }
+    const result = await query;
 
     if (result.error) {
       warnOnce(`table "${table}" unavailable`, result.error);
@@ -375,12 +435,58 @@ function mapReview(row: ReviewRow): Review | null {
  * Public API — every function resolves, never throws
  * ------------------------------------------------------------------ */
 
-/** All published products, normalised. Empty array when the table is absent/empty. */
-export const getProducts = cache(async function getProducts(): Promise<Product[]> {
-  const [rows, categoryRows] = await Promise.all([
-    fetchRows<ProductRow>("products", "is_published"),
-    fetchRows<CategoryRow>("categories", "is_active"),
-  ]);
+/** All published products, normalised. Supports limit, offset, and category filtering. */
+export const getProducts = cache(async function getProducts(
+  options?: ProductQueryOptions
+): Promise<Product[]> {
+  const client = getSupabaseClientOrNull();
+  const selectCols = options?.select ?? PRODUCT_BASE_COLUMNS;
+  const limit = options?.limit ?? 500;
+  const offset = options?.offset ?? 0;
+  const categoryFilter = options?.categorySlug
+    ? resolveCategorySlug(options.categorySlug) ?? slugify(decodeURIComponent(options.categorySlug))
+    : undefined;
+
+  let remoteRows: ProductRow[] = [];
+  let categoryRows: CategoryRow[] = [];
+
+  if (client) {
+    let prodQuery = client
+      .from("products")
+      .select(selectCols)
+      .eq("is_published", true);
+
+    if (categoryFilter) {
+      prodQuery = prodQuery.or(`category_slug.eq.${categoryFilter},category.ilike.%${categoryFilter}%`);
+    }
+
+    if (options?.orderBy) {
+      prodQuery = prodQuery.order(options.orderBy, { ascending: options.ascending ?? true });
+    } else {
+      prodQuery = prodQuery.order("sort_order", { ascending: true }).order("name", { ascending: true });
+    }
+
+    if (offset > 0) {
+      prodQuery = prodQuery.range(offset, offset + limit - 1);
+    } else {
+      prodQuery = prodQuery.limit(limit);
+    }
+
+    const [prodResult, catResult] = await Promise.all([
+      prodQuery,
+      client.from("categories").select("id, name, title, slug").eq("is_active", true),
+    ]);
+
+    if (!prodResult.error && prodResult.data) {
+      remoteRows = prodResult.data as ProductRow[];
+    } else if (prodResult.error) {
+      warnOnce('table "products" request failed', prodResult.error);
+    }
+
+    if (!catResult.error && catResult.data) {
+      categoryRows = catResult.data as CategoryRow[];
+    }
+  }
 
   const categoryLabelById = new Map<string, string>();
   categoryRows.forEach((row) => {
@@ -390,7 +496,7 @@ export const getProducts = cache(async function getProducts(): Promise<Product[]
 
   const seen = new Set<string>();
   const products: Product[] = [];
-  for (const row of rows) {
+  for (const row of remoteRows) {
     const mapped = mapProduct(row, categoryLabelById);
     if (mapped && !seen.has(mapped.slug)) {
       seen.add(mapped.slug);
@@ -399,23 +505,49 @@ export const getProducts = cache(async function getProducts(): Promise<Product[]
   }
 
   const remoteSlugs = new Set(products.map((product) => product.slug));
-  const localProducts = LOCAL_PRODUCTS.filter((product) => !remoteSlugs.has(product.slug));
-  return [...products, ...localProducts].sort((a, b) => a.name.localeCompare(b.name));
+  const localProducts = LOCAL_PRODUCTS.filter((product) => {
+    if (remoteSlugs.has(product.slug)) return false;
+    if (categoryFilter && product.categorySlug !== categoryFilter) return false;
+    return true;
+  });
+
+  const merged = [...products, ...localProducts].sort((a, b) => a.name.localeCompare(b.name));
+  return merged.slice(0, limit);
 });
 
 /**
  * Studio categories, optionally enriched with Supabase rows.
- * Supabase artwork/description wins when present; the studio catalogue guarantees the
- * ten collections always render with imagery even when the database is empty.
+ * Uses lightweight parallel counting to eliminate full products table scans.
  */
 export const getCategories = cache(async function getCategories(): Promise<Category[]> {
-  const [categoryRows, products] = await Promise.all([
-    fetchRows<CategoryRow>("categories", "is_active"),
-    getProducts(),
+  const client = getSupabaseClientOrNull();
+  const [categoryRows, productCountRes] = await Promise.all([
+    fetchRows<CategoryRow>("categories", "is_active", CATEGORY_BASE_COLUMNS),
+    client
+      ? client
+          .from("products")
+          .select("category_id, category_slug, category")
+          .eq("is_published", true)
+          .limit(1000)
+      : Promise.resolve({ data: [] }),
   ]);
 
+  const rawProducts = (productCountRes.data ?? []) as Array<{
+    category_id?: string | null;
+    category_slug?: string | null;
+    category?: string | null;
+  }>;
+
   const productCounts = new Map<string, number>();
-  products.forEach((product) => {
+  rawProducts.forEach((p) => {
+    const rawCat = cleanText(p.category, 120) ?? cleanText(p.category_slug, 120);
+    const catSlug = resolveCategorySlug(p.category_slug) ?? resolveCategorySlug(rawCat) ?? keywordSlug(rawCat);
+    if (catSlug) {
+      productCounts.set(catSlug, (productCounts.get(catSlug) ?? 0) + 1);
+    }
+  });
+
+  LOCAL_PRODUCTS.forEach((product) => {
     productCounts.set(product.categorySlug, (productCounts.get(product.categorySlug) ?? 0) + 1);
   });
 
@@ -683,21 +815,21 @@ export async function getCarpetTileCollections(): Promise<CarpetTileCollection[]
 }
 
 /** Resolve a single Carpet Tile collection by its URL slug, or null. */
-export async function getCarpetTileCollection(
+export const getCarpetTileCollection = cache(async function getCarpetTileCollection(
   slug: string | null | undefined
 ): Promise<CarpetTileCollection | null> {
   if (!slug) return null;
   const key = decodeURIComponent(slug).toLowerCase().trim();
   const collections = await getCarpetTileCollections();
   return collections.find((entry) => entry.slug === key) ?? null;
-}
+});
 
-export async function getCategory(slug: string): Promise<Category | null> {
+export const getCategory = cache(async function getCategory(slug: string): Promise<Category | null> {
   const canonical = resolveCategorySlug(slug) ?? slugify(decodeURIComponent(slug));
   if (!canonical) return null;
   const categories = await getCategories();
   return categories.find((category) => category.slug === canonical) ?? null;
-}
+});
 
 /**
  * Map a raw `media` row into a `CollectionMediaItem` for the MaterialCollection
@@ -883,7 +1015,9 @@ function mapEditorial(row: CategoryRow): CollectionEditorial | null {
  * collection media + editorial copy. The caller decides which code-defined
  * fallback to use when Supabase rows are absent.
  */
-export async function getCategoryWithData(slug: string): Promise<CategoryWithData | null> {
+export const getCategoryWithData = cache(async function getCategoryWithData(
+  slug: string
+): Promise<CategoryWithData | null> {
   const parentSlug = await resolveCategoryId(slug);
   const client = getSupabaseClientOrNull();
   if (!parentSlug || !client) return null;
@@ -933,39 +1067,95 @@ export async function getCategoryWithData(slug: string): Promise<CategoryWithDat
 
   const editorial = mapEditorial(row);
   return { category, media: mediaItems, editorial };
-}
+});
 
-export async function getProductsByCategory(categorySlug: string): Promise<Product[]> {
+export const getProductsByCategory = cache(async function getProductsByCategory(
+  categorySlug: string,
+  options?: Omit<ProductQueryOptions, "categorySlug">
+): Promise<Product[]> {
   const canonical =
     resolveCategorySlug(categorySlug) ?? slugify(decodeURIComponent(categorySlug));
   if (!canonical) return [];
-  const products = await getProducts();
-  return products.filter((product) => product.categorySlug === canonical);
-}
+  return getProducts({ ...options, categorySlug: canonical });
+});
 
-export async function getProductBySlug(slug: string): Promise<Product | null> {
+export const getProductBySlug = cache(async function getProductBySlug(
+  slug: string
+): Promise<Product | null> {
   const target = slugify(decodeURIComponent(slug));
   if (!target) return null;
-  const products = await getProducts();
-  return products.find((product) => product.slug === target) ?? null;
-}
 
-export async function getRelatedProducts(product: Product, limit = 3): Promise<Product[]> {
-  const products = await getProducts();
-  const sameCategory = products.filter(
-    (candidate) => candidate.categorySlug === product.categorySlug && candidate.slug !== product.slug
-  );
-  const others = products.filter(
-    (candidate) => candidate.categorySlug !== product.categorySlug && candidate.slug !== product.slug
-  );
-  return [...sameCategory, ...others].slice(0, limit);
-}
+  const client = getSupabaseClientOrNull();
+  if (client) {
+    const { data: row, error } = await client
+      .from("products")
+      .select(PRODUCT_BASE_COLUMNS)
+      .eq("is_published", true)
+      .or(`slug.eq.${target},name.ilike.${target}`)
+      .limit(1)
+      .maybeSingle();
 
-export async function getProjects(): Promise<Project[]> {
-  const rows = await fetchRows<ProjectRow>("projects", "is_published");
+    if (!error && row) {
+      const categoryLabelById = new Map<string, string>();
+      if (row.category_id) {
+        const { data: cat } = await client
+          .from("categories")
+          .select("id, name, title")
+          .eq("id", row.category_id)
+          .maybeSingle();
+        if (cat) {
+          const label = cleanText(cat.name ?? cat.title, 120);
+          if (label) categoryLabelById.set(cat.id, label);
+        }
+      }
+      const mapped = mapProduct(row as ProductRow, categoryLabelById);
+      if (mapped) return mapped;
+    }
+  }
+
+  // Fallback to local products
+  const localMatch = LOCAL_PRODUCTS.find((p) => p.slug === target);
+  return localMatch ?? null;
+});
+
+export const getRelatedProducts = cache(async function getRelatedProducts(
+  product: Product,
+  limit = 3
+): Promise<Product[]> {
+  const candidates = await getProductsByCategory(product.categorySlug, { limit: limit + 2 });
+  const filtered = candidates.filter((candidate) => candidate.slug !== product.slug);
+  if (filtered.length >= limit) {
+    return filtered.slice(0, limit);
+  }
+  const general = await getProducts({ limit: limit + 2 });
+  const combined = [
+    ...filtered,
+    ...general.filter(
+      (candidate) => candidate.slug !== product.slug && candidate.categorySlug !== product.categorySlug
+    ),
+  ];
+  return combined.slice(0, limit);
+});
+
+export const getProjects = cache(async function getProjects(
+  options?: ProjectQueryOptions
+): Promise<Project[]> {
+  const limit = options?.limit ?? 500;
+  const offset = options?.offset ?? 0;
+
+  const rows = await fetchRows<ProjectRow>("projects", "is_published", {
+    limit,
+    offset,
+    orderBy: options?.orderBy ?? "sort_order",
+    ascending: options?.ascending ?? true,
+  });
+
   const seen = new Set<string>();
   const projects: Project[] = [];
   rows.forEach((row, index) => {
+    if (options?.featured !== undefined && row.is_featured !== options.featured) {
+      return;
+    }
     const mapped = mapProject(row, index);
     if (mapped && !seen.has(mapped.slug)) {
       seen.add(mapped.slug);
@@ -973,27 +1163,44 @@ export async function getProjects(): Promise<Project[]> {
     }
   });
   return projects;
-}
+});
 
-export async function getProjectBySlug(slug: string): Promise<Project | null> {
+export const getProjectBySlug = cache(async function getProjectBySlug(
+  slug: string
+): Promise<Project | null> {
   const target = slugify(decodeURIComponent(slug));
   if (!target) return null;
+
   const projects = await getProjects();
   return projects.find((project) => project.slug === target) ?? null;
-}
+});
 
-/** Published reviews only — never fabricated. Empty array when none exist. */
-export async function getReviews(): Promise<Review[]> {
-  const rows = await fetchRows<ReviewRow>(
-    "reviews",
-    "is_published",
-    "id,client_name,location,project_type,rating,testimonial,is_published,sort_order"
-  );
+/** Published reviews only — supports limit and pagination options. */
+export const getReviews = cache(async function getReviews(
+  options?: ReviewQueryOptions
+): Promise<Review[]> {
+  const limit = options?.limit ?? 500;
+  const offset = options?.offset ?? 0;
+  const rows = await fetchRows<ReviewRow>("reviews", "is_published", {
+    select: options?.select ?? REVIEW_BASE_COLUMNS,
+    limit,
+    offset,
+    orderBy: options?.orderBy ?? "sort_order",
+    ascending: options?.ascending ?? true,
+  });
   return rows.map(mapReview).filter((review): review is Review => review !== null);
-}
+});
 
-export async function getServices(): Promise<Service[]> {
-  const rows = await fetchRows<ServiceRow>("services", "is_published");
+export const getServices = cache(async function getServices(
+  options?: ServiceQueryOptions
+): Promise<Service[]> {
+  const limit = options?.limit ?? 500;
+  const rows = await fetchRows<ServiceRow>("services", "is_published", {
+    select: options?.select ?? SERVICE_BASE_COLUMNS,
+    limit,
+    orderBy: "sort_order",
+    ascending: true,
+  });
   const fromDb: Service[] = [];
 
   rows.forEach((row) => {
@@ -1011,8 +1218,9 @@ export async function getServices(): Promise<Service[]> {
   });
 
   const seen = new Set(fromDb.map((service) => service.slug));
-  return [...fromDb, ...STUDIO_SERVICES.filter((service) => !seen.has(service.slug))];
-}
+  const merged = [...fromDb, ...STUDIO_SERVICES.filter((service) => !seen.has(service.slug))];
+  return options?.limit ? merged.slice(0, options.limit) : merged;
+});
 
 export interface SiteSettings {
   brandName: string;
@@ -1026,8 +1234,11 @@ export interface SiteSettings {
 }
 
 /** Site settings from Supabase when present, otherwise verified local configuration. */
-export async function getSiteSettings(): Promise<SiteSettings> {
-  const rows = await fetchRows<SiteSettingsRow>("site_settings", null);
+export const getSiteSettings = cache(async function getSiteSettings(): Promise<SiteSettings> {
+  const rows = await fetchRows<SiteSettingsRow>("site_settings", null, {
+    limit: 1,
+    select: "id, brand_name, tagline, phone, whatsapp, address, hours",
+  });
   const row = rows[0];
   const addressText = cleanText(row?.address, 400);
 
@@ -1041,7 +1252,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     addressOneLine: addressText ? addressText.replace(/\r?\n/g, ", ") : SITE.addressOneLine,
     hours: cleanText(row?.hours, 120),
   };
-}
+});
 
 /** Search index across materials, products, projects and services. */
 export async function getSearchIndex(): Promise<SearchResult[]> {
@@ -1168,7 +1379,15 @@ export interface LaminateFlooringCollection {
   pageCount: number;
   cover: CollectionMediaItem | null;
   media: CollectionMediaItem[];
-  products: any[];
+  products: Array<{
+    id: string;
+    name: string;
+    slug: string;
+    categorySlug: string;
+    description: string | null;
+    code: string | null;
+    specs: unknown;
+  }>;
 }
 
 async function getLaminateFlooringMedia(categoryId: string): Promise<{
@@ -1320,12 +1539,12 @@ export async function getLaminateFlooringCollections(): Promise<LaminateFlooring
   });
 }
 
-export async function getLaminateFlooringCollection(
+export const getLaminateFlooringCollection = cache(async function getLaminateFlooringCollection(
   slug: string | null | undefined
 ): Promise<LaminateFlooringCollection | null> {
   if (!slug) return null;
   const key = decodeURIComponent(slug).toLowerCase().trim();
   const collections = await getLaminateFlooringCollections();
   return collections.find((entry) => entry.slug === key) ?? null;
-}
+});
 
